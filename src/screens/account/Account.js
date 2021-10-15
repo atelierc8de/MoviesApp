@@ -2,11 +2,12 @@ import React from 'react';
 import {Text, View} from 'react-native-ui-lib';
 import {StyleSheet} from "react-native";
 
-export default function MoviesDetail(){
+
+export default function Account() {
 
     return(
         <View style={styles.container}>
-            <Text>MoviesDetail</Text>
+            <Text>Account</Text>
         </View>
     );
 }

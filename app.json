@@ -4,9 +4,9 @@
     "slug": "MoviesApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon2.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon2.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon2.png"
     }
   }
 }
