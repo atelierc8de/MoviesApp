@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MoviesList from "../screens/movies/MoviesList";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from "../screens/account/Login";
-import MoviesDetail from "../screens/movies/MoviesDetail";
 import Account from "../screens/account/Account";
 
 export default function Navigation(){
@@ -23,7 +22,7 @@ const Stack = createNativeStackNavigator();
  */
 function RootNavigator(){
     return(
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{gestureEnabled: false}}>
             <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
             <Stack.Screen name={'Root'} component={BottomTabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -42,21 +41,17 @@ function BottomTabNavigator(){
                 name={'MoviesList'}
                 component={MoviesList}
                 options={{
+                    // headerShown: false,
+                    // headerShadowVisible: true,
+                    tabBarLabel: 'Home',
                     tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />
-                }}
-            />
-            <BottomTab.Screen
-                name={'MoviesDetail'}
-                component={MoviesDetail}
-                options={{
-                    tabBarIcon: ({ color }) => <TabBarIcon name="film-sharp" color={color} />
                 }}
             />
             <BottomTab.Screen
                 name={'Account'}
                 component={Account}
                 options={{
-                    tabBarIcon: ({ color }) => <TabBarIcon name="film-sharp" color={color} />
+                    tabBarIcon: ({ color }) => <TabBarIcon name="people-sharp" color={color} />
                 }}
             />
         </BottomTab.Navigator>
@@ -70,5 +65,5 @@ function BottomTabNavigator(){
  * @constructor
  */
 const TabBarIcon = ({name='', color}) => {
-    return <Ionicons name={name} color={color} size={30} style={{ marginBottom: -3 }} />
+    return <Ionicons name={name} color={color} size={26} style={{ marginBottom: -3 }} />
 };
