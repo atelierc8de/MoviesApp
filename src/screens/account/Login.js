@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {TextInput, TouchableOpacity, ImageBackground} from 'react-native';
-import {View, Button, Text} from 'react-native-ui-lib';
+import {View, Button} from 'react-native-ui-lib';
 import {StyleSheet} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 
-const ButtonSpace = 20;
 export default class Login extends Component {
 
     constructor(props) {
@@ -41,7 +40,7 @@ export default class Login extends Component {
                 <KeyboardAwareScrollView>
                     <View style={{height: topSpace+20+20, width: UStyle.deviceWidth}}/>
 
-                    <View style={[styles.container, {paddingHorizontal: 20}]} onLayout={this.measureComponentHeight}>
+                    <View style={styles.container} onLayout={this.measureComponentHeight}>
 
                         <FormLogin iconName={'people-sharp'}>
                             <TextInput
@@ -85,12 +84,10 @@ export default class Login extends Component {
                         />
 
                         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
-                            <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                            }} style={{padding:5, backgroundColor:'rgba(255,255,255,0.9)', borderRadius:4}} >
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => {}} style={{padding:5, backgroundColor:'rgba(255,255,255,0.9)', borderRadius:4}} >
                                 <Ionicons name={'logo-google'} size={30} color={'#4267B2'}/>
                             </TouchableOpacity>
-                            <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                            }} style={{marginLeft: 10, padding:5, backgroundColor:'rgba(255,255,255,0.9)', borderRadius:4}}>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => {}} style={{marginLeft: 10, padding:5, backgroundColor:'rgba(255,255,255,0.9)', borderRadius:4}}>
                                 <Ionicons name={'logo-facebook'} size={30} color={'#4267B2'}/>
                             </TouchableOpacity>
                         </View>
@@ -132,5 +129,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        paddingHorizontal: 20
     }
 })
