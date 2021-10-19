@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Text, View} from 'react-native-ui-lib';
 import {StyleSheet, TouchableOpacity, FlatList, Image} from "react-native";
 import {customizeData, dataSample} from '../data-sample/DataSample';
 import UStyle from "../../system/UStyle";
+import ServiceBase from '../../system/api';
 
-export default function MoviesList(){
+export default function MoviesList() {
+
+    const [data, setData] = useState([]);
+
+    useEffect(async () => {
+        ServiceBase.getMovieList({
+            cb: (err, res) => {
+                if (!err) {
+                    setData(res?.data)
+                } else {
+                    console.log('res', err)
+                }
+            }
+        });
+    }, []);
+
+    console.log('data', data)
 
     return(
         <View style={[styles.container, {paddingHorizontal:20}]}>
