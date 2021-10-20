@@ -1,8 +1,8 @@
 import axios from "axios";
-import UConfig from "./config";
+import Config from "./config";
 
 
-export default class UServiceBase {
+export default class ServiceBase {
 
     /**
      *
@@ -13,7 +13,7 @@ export default class UServiceBase {
         return {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${UConfig.token}`
+                Authorization: `Bearer ${Config.token}`
             },
         }
     };
@@ -24,7 +24,7 @@ export default class UServiceBase {
      * @returns {"https://api.themoviedb.org/3/movie/NA"}
      */
     static url = (endPoint = 'NA') => {
-        return `${UConfig.urlAPI}${endPoint}`
+        return `${Config.urlAPI}${endPoint}`
     }
 
     /**
@@ -35,9 +35,9 @@ export default class UServiceBase {
      * @param url
      * @returns {Promise<void>}
      */
-    static get = async ({endpoint, cb, requestConfig = UServiceBase.getRequestConfig(), url}) => {
+    static get = async ({endpoint, cb, requestConfig = ServiceBase.getRequestConfig(), url}) => {
 
-        if (!url) url = UServiceBase.url(endpoint);
+        if (!url) url = ServiceBase.url(endpoint);
         await axios.get(url, endpoint, requestConfig)
             .then(res => {
                 cb && cb(null, res);
@@ -54,7 +54,7 @@ export default class UServiceBase {
      * @param page
      */
     static getMovieList = ({cb, page = 1}) => {
-        UServiceBase.get({endpoint: `popular?api_key=${UConfig.api_key}&page=${page}`, cb});
+        ServiceBase.get({endpoint: `popular?api_key=${Config.api_key}&page=${page}`, cb});
     }
 
     /**
@@ -63,7 +63,7 @@ export default class UServiceBase {
      * @param id
      */
     static getMovieDetail = ({cb, id}) => {
-        UServiceBase.get({endpoint: `${id}?api_key=${UConfig.api_key}`, cb});
+        ServiceBase.get({endpoint: `${id}?api_key=${Config.api_key}`, cb});
     }
 
 }
