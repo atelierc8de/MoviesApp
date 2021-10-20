@@ -1,4 +1,4 @@
-import {Dimensions, StatusBar} from "react-native";
+import {Dimensions, StatusBar, Platform} from "react-native";
 import {getStatusBarHeight, getBottomSpace} from "react-native-iphone-x-helper";
 
 export default class UStyle {

@@ -6,6 +6,7 @@ import MoviesList from "../screens/movies/MoviesList";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from "../screens/account/Login";
 import Account from "../screens/account/Account";
+import MoviesDetail from "../screens/movies/MoviesDetail";
 
 export default function Navigation(){
     return(
@@ -25,6 +26,7 @@ function RootNavigator(){
         <Stack.Navigator screenOptions={{gestureEnabled: false}}>
             <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
             <Stack.Screen name={'Root'} component={BottomTabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name={'MoviesDetail'} component={MoviesDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
@@ -41,8 +43,7 @@ function BottomTabNavigator(){
                 name={'MoviesList'}
                 component={MoviesList}
                 options={{
-                    // headerShown: false,
-                    // headerShadowVisible: true,
+                    headerShown: false,
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />
                 }}

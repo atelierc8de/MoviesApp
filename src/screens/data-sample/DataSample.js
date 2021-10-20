@@ -1,16 +1,19 @@
 import moment from "moment";
-const imageUrl = 'https://image.tmdb.org/t/p/w500/';
+export const imageUrl = 'https://image.tmdb.org/t/p/w500/';
 
 export const customizeData = (data) => {
     return data.map((item, index) => {
         return{
-            id: index + 1,
+            id: item.id,
             title: item.title,
-            image: `${imageUrl}${item.backdrop_path}`,
-            time: moment(item.runtime).format('h:mm'),
+            image: `${imageUrl}${item.poster_path}`,
+            time: item.runtime,
             language: item.original_language,
-            date: item.release_date,
-            overview: item.overview
+            date: moment(item.release_date).format('DD-MMM-YYYY'),
+            overview: item.overview,
+            starring: item.tagline,
+            idmb: item.vote_average,
+            category: item.genres?.name
         }
     });
 };
