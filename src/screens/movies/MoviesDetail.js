@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native-ui-lib';
-import {StyleSheet, ImageBackground, TouchableOpacity} from "react-native";
+import {StyleSheet, ImageBackground, TouchableOpacity, Linking} from "react-native";
 import {toast} from "../../components/common/Toast";
 import UServiceBase from "../../system/api";
 import {imageUrl} from "../data-sample/DataSample";
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import UStyle from "../../system/UStyle";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import moment from "moment";
+
 
 export default class MoviesDetail extends Component{
 
@@ -35,11 +36,9 @@ export default class MoviesDetail extends Component{
     render() {
 
         const {data} = this.state;
+
         const image = `${imageUrl}${data.poster_path}`;
-
-        const production = data.production_companies;
-
-        // console.log('data', data, production.logo_path);
+        const dataVideos = data.videos;
 
         const {navigation} = this.props;
 
@@ -53,11 +52,11 @@ export default class MoviesDetail extends Component{
                     </View>
                 </ImageBackground>
 
-                <View style={{flex:1, backgroundColor:'rgba(0,0,0,1)', position:'relative', paddingHorizontal:15}}>
+                <View style={{flex:1, backgroundColor:'rgba(0,0,0,1)', position:'relative'}}>
                     <LinearGradient colors={['transparent', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,1)']} style={{height:90, width:UStyle.deviceWidth, alignItems:'center', position:'absolute', top:-90, backgroundColor:'rgba(0,0,0,0.1)'}}>
                         <Text numberOfLines={1} style={{fontSize: 26, fontWeight: 'bold', color: '#fff'}}>{data.title}</Text>
 
-                        <View style={{flexDirection:'row', marginTop:5}}>
+                        <View style={{flexDirection:'row', marginTop: 5}}>
                             <Text style={{fontSize: 16, fontWeight: '400', color: '#fff', opacity:0.8}}>{moment(data.release_date).format('YYYY')}</Text>
                             <Text style={{fontSize: 16, fontWeight: '400', color: '#fff', opacity:0.8, paddingHorizontal:3}}>&#8226;</Text>
                             <Text style={{fontSize: 16, fontWeight: '400', color: '#fff', opacity:0.8}}>{data.runtime} min</Text>
@@ -72,12 +71,8 @@ export default class MoviesDetail extends Component{
                     <View style={{flex:1, marginTop:8}}>
                         <Text style={{fontSize: 14, fontWeight: '400', color: '#fff'}}>{data.overview}</Text>
 
-                        <View>
-
-                        </View>
-
-                        <View style={{justifyContent:'center', alignItems:'center', marginTop:20}}>
-                            <TouchableOpacity activeOpacity={0.9} onPress={()=>{}} style={{paddingHorizontal:25, paddingVertical:8, backgroundColor:'red', opacity:0.8, borderRadius:6}}>
+                        <View style={{justifyContent:'center', alignItems:'center', marginTop:40}}>
+                            <TouchableOpacity activeOpacity={0.9} onPress={()=>navigation.navigate('Teaser', {dataVideos: dataVideos})} style={{paddingHorizontal:25, paddingVertical:8, backgroundColor:'red', opacity:0.8, borderRadius:6}}>
                                 <Text style={{fontSize: 16, fontWeight: 'bold', color: '#fff'}}>Watch Now</Text>
                             </TouchableOpacity>
                         </View>

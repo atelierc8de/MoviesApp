@@ -55,6 +55,8 @@ export default class Login extends Component {
                                 onSubmitEditing={() => {
                                     this.passwordTextInput.focus();
                                 }}
+                                editable={false}
+                                selectTextOnFocus={false}
                             />
                         </FormLogin>
 
@@ -72,6 +74,8 @@ export default class Login extends Component {
                                 secureTextEntry={hidePassword}
                                 onChangeText={password => this.setState({password})}
                                 onSubmitEditing={() => navigation.navigate('Root')}
+                                editable={false}
+                                selectTextOnFocus={false}
                             />
                         </FormLogin>
 
@@ -117,7 +121,7 @@ const FormLogin = ({children, iconName = '', iconColor, top}) => {
             borderRadius: 4,
             backgroundColor: '#FFF',
             paddingHorizontal: 15,
-            opacity: 0.7
+            opacity: 0.5
         }}>
             <Ionicons name={iconName} size={24} color={iconColor} style={{marginRight: 5}}/>
             {children}

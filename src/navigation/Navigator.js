@@ -7,6 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from "../screens/account/Login";
 import Account from "../screens/account/Account";
 import MoviesDetail from "../screens/movies/MoviesDetail";
+import Teaser from "../screens/movies/Teaser";
 
 export default function Navigation(){
     return(
@@ -27,6 +28,9 @@ function RootNavigator(){
             <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
             <Stack.Screen name={'Root'} component={BottomTabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name={'MoviesDetail'} component={MoviesDetail} options={{ headerShown: false }} />
+            <Stack.Group>
+                <Stack.Screen name={'Teaser'} component={Teaser} options={{ headerShown: false, presentation: 'transparentModal' }} />
+            </Stack.Group>
         </Stack.Navigator>
     );
 }

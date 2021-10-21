@@ -63,7 +63,7 @@ export default class ServiceBase {
      * @param id
      */
     static getMovieDetail = ({cb, id}) => {
-        ServiceBase.get({endpoint: `${id}?api_key=${Config.api_key}`, cb});
+        ServiceBase.get({endpoint: `${id}?api_key=${Config.api_key}&append_to_response=videos,credits`, cb});
     }
 
 }
