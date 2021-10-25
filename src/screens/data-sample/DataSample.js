@@ -18,6 +18,18 @@ export const customizeData = (data) => {
     });
 };
 
+const imagePosterUrl = 'https://image.tmdb.org/t/p/w500';
+export const customizeDataFavorite = (data) => {
+    return data.map((item, index) => {
+        return{
+            id: item.id,
+            idMovies: item.idMovies,
+            title: item.name,
+            image: `${imagePosterUrl}${item.poster}`,
+        }
+    });
+};
+
 
 export const dataSample = {
     moviesList: [

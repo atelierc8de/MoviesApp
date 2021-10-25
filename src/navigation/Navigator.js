@@ -53,7 +53,7 @@ function BottomTabNavigator(){
                 }}
             />
             <BottomTab.Screen
-                name={'Account'}
+                name={'List Favorite'}
                 component={Account}
                 options={{
                     tabBarIcon: ({ color }) => <TabBarIcon name="people-sharp" color={color} />
