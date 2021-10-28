@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native-ui-lib';
-import {StyleSheet, TouchableOpacity, FlatList, Image} from "react-native";
+import {TouchableOpacity, FlatList, Image} from "react-native";
 import {customizeData} from '../data-sample/DataSample';
 import UStyle from "../../system/UStyle";
 import {Header} from "../../components/common/Header";
@@ -8,7 +8,6 @@ import UServiceBase from "../../system/api";
 import {toast} from "../../components/common/Toast";
 
 export default class MoviesList extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -34,8 +33,7 @@ export default class MoviesList extends Component {
         const {navigation} = this.props;
 
         return (
-            <View style={[styles.container]}>
-
+            <View style={{flex:1}}>
                 <Header/>
 
                 <FlatList
@@ -57,12 +55,11 @@ export default class MoviesList extends Component {
     }
 }
 
-
 /**
  *
  * @param title
  * @param image
- * @param category
+ * @param vote
  * @param date
  * @param language
  * @param idmb
@@ -70,7 +67,7 @@ export default class MoviesList extends Component {
  * @constructor
  */
 const MoviesListForm = ({
-                            title = '', image, category, date, language, idmb, onPress = () => {
+                            title = '', image, vote, date, language, idmb, onPress = () => {
     }
                         }) => {
     return (
@@ -99,14 +96,8 @@ const MoviesListForm = ({
 
                 <Text numberOfLines={1} style={{fontSize: 14, fontWeight: '500', color: '#242424', opacity: 0.4}}>Date: {date}</Text>
 
-                <Text style={{fontSize: 14, fontWeight: '500', color: '#242424', opacity: 0.4}}>Category: {category || 'NA'}</Text>
+                <Text style={{fontSize: 14, fontWeight: '500', color: '#242424', opacity: 0.4}}>Vote: {vote || 'NA'}</Text>
             </View>
         </TouchableOpacity>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
-});

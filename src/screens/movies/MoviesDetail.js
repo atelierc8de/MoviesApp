@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native-ui-lib';
-import { StyleSheet, ImageBackground, TouchableOpacity, Linking } from "react-native";
+import { Text, View } from 'react-native-ui-lib';
+import { ImageBackground, TouchableOpacity } from "react-native";
 import { toast } from "../../components/common/Toast";
 import UServiceBase from "../../system/api";
 import { imageUrl } from "../data-sample/DataSample";
@@ -16,7 +16,8 @@ export default class MoviesDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            refreshing: false
         };
     }
 
@@ -36,29 +37,49 @@ export default class MoviesDetail extends Component {
 
     addMoviesFavorite = () => {
         const { data } = this.state;
-        console.log('datapost', data?.id, data?.name, data?.poster_path)
         firestore.movies().add({
-            idMovies: data?.id || 438631,
-            name: data?.title || 'Dune',
-            poster: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"'
+            id: data?.id || 438631,
+            title: data?.title || 'Dune',
+            poster_path: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"',
+            release_date: data?.release_date,
+            runtime: data.runtime,
+            vote_average: data?.vote_average,
+            vote_count: data?.vote_count,
+            original_language: data?.original_language,
         });
-        toast('Add Film Favorite Success!');
 
+        /**
+         * add data favorite AsyncStorage fake
+         */
+        // const dataFavorite = {
+        //     id: data?.id || 438631,
+        //     title: data?.title || 'Dune',
+        //     poster_path: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"',
+        //     release_date: data?.release_date,
+        //     runtime: data.runtime,
+        //     vote_average: data?.vote_average,
+        //     vote_count: data?.vote_count,
+        //     original_language: data?.original_language,
+        // };
+        //
+        // UUser.dataUser.push(dataFavorite);
+        // AsyncStorage.setItem(
+        //     'DataUser',
+        //     JSON.stringify(UUser.dataUser)
+        // );
+        toast('Add Film Favorite Success!');
     }
 
     render() {
 
         const { data } = this.state;
-
-        const image = `${imageUrl}${data.poster_path}`;
         const dataVideos = data.videos;
-
+        const {poster_path, title, release_date:date, runtime, vote_average:vote, overview} = data;
         const { navigation } = this.props;
 
-
         return (
-            <View style={[styles.container]}>
-                <ImageBackground source={{ uri: image }} style={{ flex: 1 }}>
+            <View style={{flex:1}}>
+                <ImageBackground source={{ uri: `${imageUrl}${poster_path}` }} style={{ flex: 1 }}>
                     <View style={{ marginTop: UStyle.statusBarHeight, paddingHorizontal: 10 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
                             <Ionicons name={'ios-arrow-back'} size={30} color={'#fff'} />
@@ -68,21 +89,21 @@ export default class MoviesDetail extends Component {
 
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)', position: 'relative' }}>
                     <LinearGradient colors={['transparent', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,1)']} style={{ height: 90, width: UStyle.deviceWidth, alignItems: 'center', position: 'absolute', top: -90, backgroundColor: 'rgba(0,0,0,0.1)' }}>
-                        <Text numberOfLines={1} style={{ fontSize: 26, fontWeight: 'bold', color: '#fff' }}>{data.title}</Text>
+                        <Text numberOfLines={1} style={{ fontSize: 26, fontWeight: 'bold', color: '#fff' }}>{title}</Text>
 
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{moment(data.release_date).format('YYYY')}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{moment(date).format('YYYY')}</Text>
                             <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8, paddingHorizontal: 3 }}>&#8226;</Text>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{data.runtime} min</Text>
+                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{Math.floor(runtime / 60)}h {runtime % 60}min</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '500', color: 'yellow', opacity: 0.8, marginRight: 3 }}>{data.vote_average}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: '500', color: 'yellow', opacity: 0.8, marginRight: 3 }}>{vote}</Text>
                             {[0, 1, 2, 3, 4].map((item, i) => (
                                 <Ionicons key={item.toString()} name={'star'} size={16} color={i === 4 ? 'gray' : 'yellow'} style={{ opacity: 0.8, marginLeft: 2 }} />
                             ))}
                         </View>
                     </LinearGradient>
-                    <View style={{ flex: 1, marginTop: 8 }}>
+                    <View style={{ flex: 1, marginTop: 8, paddingHorizontal:15 }}>
                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#fff' }}>{data.overview}</Text>
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
@@ -100,10 +121,3 @@ export default class MoviesDetail extends Component {
         );
     }
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
-});

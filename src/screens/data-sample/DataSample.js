@@ -13,7 +13,7 @@ export const customizeData = (data) => {
             overview: item.overview,
             starring: item.tagline,
             idmb: item.vote_average,
-            category: item.genres?.name
+            vote: item.vote_count
         }
     });
 };
@@ -23,9 +23,13 @@ export const customizeDataFavorite = (data) => {
     return data.map((item, index) => {
         return{
             id: item.id,
-            idMovies: item.idMovies,
-            title: item.name,
-            image: `${imagePosterUrl}${item.poster}`,
+            title: item.title,
+            image: `${imagePosterUrl}${item.poster_path}`,
+            time: item.runtime,
+            language: item.original_language,
+            date: moment(item.release_date).format('DD-MMM-YYYY'),
+            idmb: item.vote_average,
+            vote: item.vote_count
         }
     });
 };

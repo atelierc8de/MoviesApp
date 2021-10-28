@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
-import {TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet} from 'react-native';
-import {View, Button} from 'react-native-ui-lib';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {View, TextInput, ImageBackground, StyleSheet, TouchableOpacity} from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import UStyle from "../../system/UStyle";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {Button} from "react-native-ui-lib";
 
-export default class Login extends Component {
+export default class Register extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            username: Login.usernameLastTime,
-            email: '',
-            password: '',
 
-            userData: {},
+        this.state = {
+            username:'',
+            password:'',
+            confirmpassword:'',
 
             hidePassword: true,
         };
     }
-
-    static usernameLastTime = '';
 
     // /**
     //  *
@@ -33,32 +30,35 @@ export default class Login extends Component {
     //     } else if (!this.state.password.trim()) {
     //         toast('Your password cannot be empty, please check again!');
     //         return false;
+    //     } else if (!this.state.confirmpassword.trim()){
+    //         toast('Your confirm password cannot be empty, please check again!');
     //     }
     //
     //     return true;
     // };
     //
-    // componentDidMount() {
-    //     this._getUser().then();
-    // }
     //
-    //
-    // _getUser = async () => {
-    //     let userData = await AsyncStorage.getItem(ACCESS_TOKEN);
-    //     this.setState({userData: JSON.parse(userData)});
-    // };
-    //
-    //
-    // login = () => {
+    // /**
+    //  *
+    //  */
+    // onRegister = () => {
     //     const {navigation} = this.props;
-    //     const {userData, username, password} = this.state;
     //
     //     if(this.validate()){
-    //         if(username===userData.username && password===userData.password){
-    //             navigation.navigate('Root');
-    //             toast('Login Success');
-    //             Login.usernameLastTime = this.state.username;
-    //         } else toast('You need register first!');
+    //         if(this.state.password===this.state.confirmpassword){
+    //             const user = {
+    //                 username: this.state.username,
+    //                 password: this.state.password,
+    //                 confirmpassword: this.state.confirmpassword
+    //             };
+    //
+    //             // UUser.user.push(user);
+    //             AsyncStorage.setItem(ACCESS_TOKEN, JSON.stringify(user));
+    //
+    //             toast('Register success!');
+    //             navigation.navigate('Login');
+    //         } else toast('err!')
+    //
     //     }
     // };
 
@@ -68,24 +68,26 @@ export default class Login extends Component {
      */
     measureComponentHeight = ({nativeEvent}) => this.setState({formHeight: nativeEvent.layout.height});
 
-
     render() {
 
-        const {username, password, hidePassword, formHeight = 500} = this.state;
+        const {username, password, confirmpassword, hidePassword, formHeight = 500} = this.state;
         let topSpace = (UStyle.deviceHeight - formHeight) / 2;
         topSpace = topSpace > 0 ? topSpace : 0;
-
         const {navigation} = this.props;
 
-        return (
+        return(
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{flex: 1, height: UStyle.deviceHeight}}>
-
+                <View style={{ marginTop: UStyle.statusBarHeight, paddingHorizontal: 10, position:'absolute', zIndex:2 }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
+                        <Ionicons name={'ios-arrow-back'} size={30} color={'#fff'} />
+                    </TouchableOpacity>
+                </View>
                 <KeyboardAwareScrollView>
                     <View style={{height: topSpace+20+20, width: UStyle.deviceWidth}}/>
 
                     <View style={styles.container} onLayout={this.measureComponentHeight}>
 
-                        <FormLogin iconName={'people-sharp'}>
+                        <FormRegister iconName={'people-sharp'}>
                             <TextInput
                                 style={{flex: 1, fontSize: 16}}
                                 placeholder='Enter...'
@@ -99,9 +101,26 @@ export default class Login extends Component {
                                     this.passwordTextInput.focus();
                                 }}
                             />
-                        </FormLogin>
+                        </FormRegister>
 
-                        <FormLogin iconName={'key-sharp'} top>
+                        <FormRegister iconName={'key-sharp'} top>
+                            <TextInput
+                                style={{flex: 1, fontSize: 16}}
+                                ref={(input) => {
+                                    this.passwordTextInput = input;
+                                }}
+                                placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;'
+                                placeholderTextColor='#6B7B8B'
+                                textContentType={'password'}
+                                returnKeyType={'next'}
+                                value={password}
+                                secureTextEntry={hidePassword}
+                                onChangeText={password => this.setState({password})}
+                                onSubmitEditing={() => {}}
+                            />
+                        </FormRegister>
+
+                        <FormRegister iconName={'key-sharp'} top>
                             <TextInput
                                 style={{flex: 1, fontSize: 16}}
                                 ref={(input) => {
@@ -111,26 +130,20 @@ export default class Login extends Component {
                                 placeholderTextColor='#6B7B8B'
                                 textContentType={'password'}
                                 returnKeyType={'done'}
-                                value={password}
+                                value={confirmpassword}
                                 secureTextEntry={hidePassword}
-                                onChangeText={password => this.setState({password})}
-                                onSubmitEditing={()=>navigation.navigate('Root')}
+                                onChangeText={confirmpassword => this.setState({confirmpassword})}
+                                onSubmitEditing={()=>navigation.navigate('Login')}
                             />
-                        </FormLogin>
+                        </FormRegister>
 
                         <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
-                                label="SIGN IN"
+                                label="REGISTER"
                                 labelStyle={{fontWeight: '600'}}
                                 style={{marginTop: 40, height: 50, borderRadius: 4}}
-                                onPress={()=>navigation.navigate('Root')}
+                                onPress={()=>navigation.navigate('Login')}
                                 fullWidth
                         />
-
-                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-                            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Register')} style={{padding:5, backgroundColor:'rgba(0,0,0,0.2)', borderRadius:4}} >
-                                <Text style={{color:'#FFF', fontSize:16, fontWeight:'500'}}>Register account?</Text>
-                            </TouchableOpacity>
-                        </View>
 
                     </View>
                 </KeyboardAwareScrollView>
@@ -138,6 +151,7 @@ export default class Login extends Component {
         );
     }
 }
+
 
 /**
  *
@@ -147,7 +161,7 @@ export default class Login extends Component {
  * @param top
  * @constructor
  */
-const FormLogin = ({children, iconName = '', iconColor, top}) => {
+const FormRegister = ({children, iconName = '', iconColor, top}) => {
     return (
         <View style={{
             height: 50,
@@ -164,6 +178,7 @@ const FormLogin = ({children, iconName = '', iconColor, top}) => {
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

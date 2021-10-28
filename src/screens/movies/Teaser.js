@@ -35,11 +35,11 @@ export default class Teaser extends Component{
         const {dataVideos} = this.state;
 
         return(
-            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0,0,0,0.6)'}}>
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'transparent'}}>
 
-                <View style={{minWidth:UStyle.deviceWidth-80, maxWidth: UStyle.deviceWidth-80, maxHeight:UStyle.deviceHeight-100, justifyContent:'center', backgroundColor:'#FFF', borderRadius:6}}>
+                <View style={{minWidth:UStyle.deviceWidth-80, maxWidth: UStyle.deviceWidth-80, maxHeight:UStyle.deviceHeight-100, justifyContent:'center', backgroundColor:'#FFF', borderRadius:6, overflow:'hidden'}}>
 
-                    <View style={{height:44, flexDirection:'row', justifyContent:'space-between', alignItems:'center', backgroundColor:'#242424', paddingHorizontal:15, borderTopLeftRadius:6, borderTopRightRadius:6}}>
+                    <View style={{height:50, flexDirection:'row', justifyContent:'space-between', alignItems:'center', backgroundColor:'#242424', paddingHorizontal:15, borderTopLeftRadius:6, borderTopRightRadius:6}}>
                         <Text style={{fontSize:18, fontWeight:'bold', color:'#FFF'}}>TEASER</Text>
                         <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.goBack()}>
                             <Ionicons name={'close'} size={24} color={'#FFF'} />
@@ -67,8 +67,14 @@ export default class Teaser extends Component{
     }
 }
 
-
-const TeaserForm = ({keyUrl, name='', dateUpload, quality}) => {
+/**
+ *
+ * @param keyUrl
+ * @param name
+ * @param dateUpload
+ * @constructor
+ */
+const TeaserForm = ({keyUrl, name='', dateUpload}) => {
     return(
         <TouchableOpacity activeOpacity={0.8} onPress={()=>Linking.openURL(keyUrl)} style={{backgroundColor:'#FFF', paddingHorizontal:15, paddingVertical:8}}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
