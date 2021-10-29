@@ -6,6 +6,8 @@ import UStyle from "../../system/UStyle";
 import {Header} from "../../components/common/Header";
 import UServiceBase from "../../system/api";
 import {toast} from "../../components/common/Toast";
+import { auth } from '../../../firebaseConfig';
+import UUser from '../../system/UUser';
 
 export default class MoviesList extends Component {
     constructor(props) {
@@ -23,6 +25,17 @@ export default class MoviesList extends Component {
                 } else {
                     toast('error!');
                 }
+            }
+        });
+        this.onGetUserID();
+    }
+
+    onGetUserID = () => {
+        auth.onAuthStateChanged(function (user) {
+            if (user) {
+                UUser.userId = user.uid
+            } else {
+                toast('error!');
             }
         });
     }

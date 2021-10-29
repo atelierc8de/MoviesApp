@@ -6,6 +6,7 @@ import UServiceBase from "../../system/api";
 import { imageUrl } from "../data-sample/DataSample";
 import { LinearGradient } from 'expo-linear-gradient';
 import UStyle from "../../system/UStyle";
+import UUser from '../../system/UUser';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import moment from "moment";
 import { firestore } from '../../../firebaseConfig';
@@ -37,36 +38,19 @@ export default class MoviesDetail extends Component {
 
     addMoviesFavorite = () => {
         const { data } = this.state;
-        firestore.movies().add({
-            id: data?.id || 438631,
-            title: data?.title || 'Dune',
-            poster_path: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"',
-            release_date: data?.release_date,
-            runtime: data.runtime,
-            vote_average: data?.vote_average,
-            vote_count: data?.vote_count,
-            original_language: data?.original_language,
-        });
+        firestore.favorites()
+            .collection(UUser.userId)
+            .add({
+                id: data?.id || 438631,
+                title: data?.title || 'Dune',
+                poster_path: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"',
+                release_date: data?.release_date,
+                runtime: data.runtime,
+                vote_average: data?.vote_average,
+                vote_count: data?.vote_count,
+                original_language: data?.original_language,
+            });
 
-        /**
-         * add data favorite AsyncStorage fake
-         */
-        // const dataFavorite = {
-        //     id: data?.id || 438631,
-        //     title: data?.title || 'Dune',
-        //     poster_path: data?.poster_path || '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"',
-        //     release_date: data?.release_date,
-        //     runtime: data.runtime,
-        //     vote_average: data?.vote_average,
-        //     vote_count: data?.vote_count,
-        //     original_language: data?.original_language,
-        // };
-        //
-        // UUser.dataUser.push(dataFavorite);
-        // AsyncStorage.setItem(
-        //     'DataUser',
-        //     JSON.stringify(UUser.dataUser)
-        // );
         toast('Add Film Favorite Success!');
     }
 
@@ -74,11 +58,12 @@ export default class MoviesDetail extends Component {
 
         const { data } = this.state;
         const dataVideos = data.videos;
-        const {poster_path, title, release_date:date, runtime, vote_average:vote, overview} = data;
+        const { poster_path, title, release_date: date, runtime, vote_average: vote, overview } = data;
         const { navigation } = this.props;
+        console.log('UserDetailID', UUser.userId)
 
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
                 <ImageBackground source={{ uri: `${imageUrl}${poster_path}` }} style={{ flex: 1 }}>
                     <View style={{ marginTop: UStyle.statusBarHeight, paddingHorizontal: 10 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
@@ -103,7 +88,7 @@ export default class MoviesDetail extends Component {
                             ))}
                         </View>
                     </LinearGradient>
-                    <View style={{ flex: 1, marginTop: 8, paddingHorizontal:15 }}>
+                    <View style={{ flex: 1, marginTop: 8, paddingHorizontal: 15 }}>
                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#fff' }}>{data.overview}</Text>
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>

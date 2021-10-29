@@ -4,22 +4,11 @@ import {FlatList, Image, TouchableOpacity} from 'react-native';
 import {firestore} from '../../../firebaseConfig';
 import {customizeDataFavorite} from '../data-sample/DataSample';
 import UStyle from "../../system/UStyle";
+import UUser from '../../system/UUser';
 import {Header} from "../../components/common/Header";
 
 
 export default function FavoriteFilm({navigation}){
-
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         data: [],
-    //         refreshing: false
-    //     };
-    // }
-
-    // componentDidMount() {
-    //     this.getDataFavorite().then();
-    // }
 
     const [data, setData] = useState([]);
 
@@ -28,7 +17,8 @@ export default function FavoriteFilm({navigation}){
     }, []);
 
     const _getDataFromFirebase = async () => {
-        const res = firestore.movies()
+       firestore.favorites()
+       .collection(UUser.userId)
             .onSnapshot((snapshot) => {
                 let dataMovies = []
                 snapshot.forEach((doc) => {
@@ -39,27 +29,18 @@ export default function FavoriteFilm({navigation}){
                     }
                     dataMovies.push(obj);
                 })
-
                 setData(customizeDataFavorite(dataMovies));
             });
     }
 
-    /**
-     * data favorite AsyncStorage fake
-     */
-    // getDataFavorite = async () => {
-    //     let dataFavorite = await AsyncStorage.getItem('DataUser');
-    //     UUser.dataUser = JSON.parse(dataFavorite);
-    //     this.setState({data: UUser.dataUser});
-    // };
+    console.log('dataListFa', data)
 
     return (
         <View style={{flex:1}}>
             <Header/>
-
             <FlatList
                 style={{paddingHorizontal: 20}}
-                data={customizeDataFavorite(data)}
+                data={data}
                 keyExtractor={(item, index) => item.id.toString()}
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}
@@ -98,6 +79,8 @@ export default function FavoriteFilm({navigation}){
  * @constructor
  */
 const FavoriteFilmItem = ({image, title, idmb, language='', date, vote, onPress}) => {
+
+    console.log('FavoriteFilmItem',image, title, idmb, language='', date, vote, onPress )
     return(
         <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={{
             paddingHorizontal: 15,

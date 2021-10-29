@@ -1,6 +1,7 @@
 
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC4tmYExf9hQJpd7KdtPPtgzj7BAyOaGW8",
@@ -17,11 +18,12 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-const instance = firebase.firestore()
+const instance = firebase.firestore();
+const auth = firebase.auth();
 const firestore = {
   instance,
-  movies: () => instance.collection('dev').doc('movies').collection('item'),
+  favorites: () => instance.collection('dev').doc('favorites')
 }
 
 
-export { firebase, firestore };
+export { firebase, firestore, auth, instance };

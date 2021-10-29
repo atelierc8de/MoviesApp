@@ -74,5 +74,30 @@ export default class UUser {
         return UUser._token;
     };
 
+        /**
+     *
+     * @type {string}
+     * @private
+     */
+         static _userId = '';
+
+         /**
+          *
+          * @param value
+          */
+         static set userId(value) {
+             UUser._userId = value;
+             if (__DEV__) {
+                 UUser.storeUser('user_ID', value).then();
+             }
+         };
+     
+         /**
+          *
+          * @returns {null|string}
+          */
+         static get userId() {
+             return UUser._userId;
+         };
 
 }
