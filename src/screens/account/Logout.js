@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {Button} from "react-native-ui-lib";
-import {firebase} from '../../../firebaseConfig';
+import {auth} from '../../../firebaseConfig';
 import {AuthenticatedUserContext} from "../../navigation/AuthenticatedUserProvider";
-
-const auth = firebase.auth();
 
 export default function Logout(){
 

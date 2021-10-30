@@ -6,9 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast";
-import UValidation from "../../system/UValidation";
 import UUser from "../../system/UUser";
-import Navigation from "../../navigation/Navigator";
 
 export default class Login extends Component {
 
@@ -49,12 +47,13 @@ export default class Login extends Component {
         try {
             if (this.validate()) {
                 await auth.signInWithEmailAndPassword(email, password)
-                    // .then((userCredential) => {
-                    //     const user = userCredential.user;
-                    //     UUser.userId = user.uid;
-                    // })
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        UUser.userId = user.uid;
+                    })
                 Login.emailLastTime = email;
-                // Navigation();
+                console.log('UUser.userId', UUser.userId);
+                this.setState({});
                 toast('Login success.');
             }
         } catch (error) {

@@ -11,39 +11,13 @@ import Teaser from "../screens/movies/Teaser";
 import FavoriteFilm from "../screens/movies/FavoriteFilm";
 import Register from "../screens/account/Register";
 import Logout from "../screens/account/Logout";
-import { AuthenticatedUserContext } from './AuthenticatedUserProvider';
-import {firebase} from "../../firebaseConfig";
-
-const auth = firebase.auth();
+import UUser from "../system/UUser";
 
 export default function Navigation() {
 
-    const { user, setUser } = useContext(AuthenticatedUserContext);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const unsubscribeAuth = auth.onAuthStateChanged(async authenticatedUser => {
-            try {
-                await (authenticatedUser ? setUser(authenticatedUser) : setUser(null));
-                setIsLoading(false);
-            } catch (e) {
-            }
-        });
-
-        return unsubscribeAuth;
-    }, []);
-
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size='large' />
-            </View>
-        );
-    }
-
     return (
         <NavigationContainer>
-            {user ? <MoviesNavigator/> : <UserNavigator/>}
+            {UUser.userId ? <MoviesNavigator/> : <UserNavigator/>}
         </NavigationContainer>
     );
 }
