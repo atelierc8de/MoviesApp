@@ -29,14 +29,14 @@ export default class UUser {
 
         try {
             const value = await AsyncStorage.getItem(key);
-            if(value !== null) {
+            if (value !== null) {
                 _return = JSON.parse(value);
             }
             return _return
-        } catch(e) {
+        } catch (e) {
         }
 
-        return  _return;
+        return _return;
     };
 
     /**
@@ -44,9 +44,7 @@ export default class UUser {
      * @type {{}}
      */
     static cache = {};
-
     static dataUser = [];
-
 
     /**
      *
@@ -74,30 +72,30 @@ export default class UUser {
         return UUser._token;
     };
 
-        /**
+    /**
      *
      * @type {string}
      * @private
      */
-         static _userId = '';
+    static _userId = '';
 
-         /**
-          *
-          * @param value
-          */
-         static set userId(value) {
-             UUser._userId = value;
-             if (__DEV__) {
-                 UUser.storeUser('user_ID', value).then();
-             }
-         };
-     
-         /**
-          *
-          * @returns {null|string}
-          */
-         static get userId() {
-             return UUser._userId;
-         };
+    /**
+     *
+     * @param value
+     */
+    static set userId(value) {
+        UUser._userId = value;
+        if (__DEV__) {
+            UUser.storeUser('user_ID', value).then();
+        }
+    };
+
+    /**
+     *
+     * @returns {null|string}
+     */
+    static get userId() {
+        return UUser._userId;
+    };
 
 }

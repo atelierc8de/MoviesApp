@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, TextInput, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import UStyle from "../../system/UStyle";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "react-native-ui-lib";
 import { auth } from '../../../firebaseConfig';
+import {toast} from "../../components/common/Toast";
 
 export default class Register extends Component {
 
@@ -14,16 +15,15 @@ export default class Register extends Component {
         this.state = {
             email: '',
             password: '',
-            confirmpassword: '',
 
             hidePassword: true,
         };
     }
 
-    // /**
-    //  *
-    //  * @returns {boolean}
-    //  */
+    /**
+     *
+     * @returns {boolean}
+     */
     validate = () => {
         if (!this.state.email.trim()) {
             toast('Your email cannot be empty, please check again!');
@@ -31,8 +31,6 @@ export default class Register extends Component {
         } else if (!this.state.password.trim()) {
             toast('Your password cannot be empty, please check again!');
             return false;
-        } else if (!this.state.confirmpassword.trim()) {
-            toast('Your confirm password cannot be empty, please check again!');
         }
 
         return true;
@@ -44,17 +42,16 @@ export default class Register extends Component {
     */
     onHandleSignup = async () => {
         const { email, password } = this.state;
-        const { navigation } = this.props;
         try {
-            if (email !== '' && password !== '') {
+            if (this.validate()) {
                 await auth.createUserWithEmailAndPassword(email, password);
-                navigation.navigate('Login');
+                this.props.navigation.navigate('Login');
+                toast('Register success.');
             }
-        } catch (error) {
-            setSignupError(error.message);
+        } catch (e) {
+            toast('Register fail.');
         }
     };
-
 
     /**
      *
@@ -64,9 +61,10 @@ export default class Register extends Component {
 
     render() {
 
-        const { email, password, confirmpassword, hidePassword, formHeight = 500 } = this.state;
+        const { email, password, hidePassword, formHeight = 500 } = this.state;
         let topSpace = (UStyle.deviceHeight - formHeight) / 2;
         topSpace = topSpace > 0 ? topSpace : 0;
+
         const { navigation } = this.props;
 
         return (
@@ -79,7 +77,7 @@ export default class Register extends Component {
                 <KeyboardAwareScrollView>
                     <View style={{ height: topSpace + 20 + 20, width: UStyle.deviceWidth }} />
 
-                    <View style={styles.container} onLayout={this.measureComponentHeight}>
+                    <View style={{flex: 1, justifyContent: 'center', paddingHorizontal: 20}} onLayout={this.measureComponentHeight}>
 
                         <FormRegister iconName={'people-sharp'}>
                             <TextInput
@@ -106,28 +104,11 @@ export default class Register extends Component {
                                 placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;'
                                 placeholderTextColor='#6B7B8B'
                                 textContentType={'password'}
-                                returnKeyType={'next'}
+                                returnKeyType={'done'}
                                 value={password}
                                 secureTextEntry={hidePassword}
                                 onChangeText={password => this.setState({ password })}
-                                onSubmitEditing={() => { }}
-                            />
-                        </FormRegister>
-
-                        <FormRegister iconName={'key-sharp'} top>
-                            <TextInput
-                                style={{ flex: 1, fontSize: 16 }}
-                                ref={(input) => {
-                                    this.passwordTextInput = input;
-                                }}
-                                placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;'
-                                placeholderTextColor='#6B7B8B'
-                                textContentType={'password'}
-                                returnKeyType={'done'}
-                                value={confirmpassword}
-                                secureTextEntry={hidePassword}
-                                onChangeText={confirmpassword => this.setState({ confirmpassword })}
-                                onSubmitEditing={() => navigation.navigate('Login')}
+                                onSubmitEditing={this.onHandleSignup}
                             />
                         </FormRegister>
 
@@ -145,7 +126,6 @@ export default class Register extends Component {
         );
     }
 }
-
 
 /**
  *
@@ -172,12 +152,3 @@ const FormRegister = ({ children, iconName = '', iconColor, top }) => {
         </View>
     );
 };
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 20
-    }
-})

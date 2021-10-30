@@ -33,8 +33,6 @@ export default function FavoriteFilm({navigation}){
             });
     }
 
-    console.log('dataListFa', data)
-
     return (
         <View style={{flex:1}}>
             <Header/>
@@ -45,17 +43,6 @@ export default function FavoriteFilm({navigation}){
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}
                 ListFooterComponent={() => <View style={{height: 20}}/>}
-
-                // onEndReached={this.loadMore}
-                // refreshControl={
-                //     <RefreshControl
-                //         refreshing={this.state.refreshing}
-                //         onRefresh={()=>{
-                //             this.setState({data: UUser.dataUser})
-                //         }}
-                //         progressBackgroundColor="white"
-                //     />
-                // }
 
                 renderItem={
                     ({item, index}) => {
@@ -79,8 +66,6 @@ export default function FavoriteFilm({navigation}){
  * @constructor
  */
 const FavoriteFilmItem = ({image, title, idmb, language='', date, vote, onPress}) => {
-
-    console.log('FavoriteFilmItem',image, title, idmb, language='', date, vote, onPress )
     return(
         <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={{
             paddingHorizontal: 15,

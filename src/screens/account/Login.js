@@ -5,73 +5,60 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
+import {toast} from "../../components/common/Toast";
+import UValidation from "../../system/UValidation";
+import UUser from "../../system/UUser";
+import Navigation from "../../navigation/Navigator";
 
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            username: Login.usernameLastTime,
-            email: 'Nguyen111@gmail.com',
-            password: '1234hi',
-
-            userData: {},
+            email: Login.emailLastTime,
+            password: '',
 
             hidePassword: true,
         };
     }
 
-    static usernameLastTime = '';
+    static emailLastTime = '';
 
-    // /**
-    //  *
-    //  * @returns {boolean}
-    //  */
-    // validate = () => {
-    //     if (!this.state.username.trim()) {
-    //         toast('Your username cannot be empty, please check again!');
-    //         return false;
-    //     } else if (!this.state.password.trim()) {
-    //         toast('Your password cannot be empty, please check again!');
-    //         return false;
-    //     }
-    //
-    //     return true;
-    // };
-    //
-    // componentDidMount() {
-    //     this._getUser().then();
-    // }
-    //
-    //
-    // _getUser = async () => {
-    //     let userData = await AsyncStorage.getItem(ACCESS_TOKEN);
-    //     this.setState({userData: JSON.parse(userData)});
-    // };
-    //
-    //
-    // login = () => {
-    //     const {navigation} = this.props;
-    //     const {userData, username, password} = this.state;
-    //
-    //     if(this.validate()){
-    //         if(username===userData.username && password===userData.password){
-    //             navigation.navigate('Root');
-    //             toast('Login Success');
-    //             Login.usernameLastTime = this.state.username;
-    //         } else toast('You need register first!');
-    //     }
-    // };
+    /**
+     *
+     * @returns {boolean}
+     */
+    validate = () => {
+        if (!this.state.email.trim()) {
+            toast('Your username cannot be empty, please check again!');
+            return false;
+        } else if (!this.state.password.trim()) {
+            toast('Your password cannot be empty, please check again!');
+            return false;
+        }
 
+        return true;
+    };
+
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     onLogin = async () => {
         const { email, password } = this.state;
         try {
-            if (email !== '' && password !== '') {
-                await auth.signInWithEmailAndPassword(email, password);
-                this.props.navigation.navigate('Root');
+            if (this.validate()) {
+                await auth.signInWithEmailAndPassword(email, password)
+                    // .then((userCredential) => {
+                    //     const user = userCredential.user;
+                    //     UUser.userId = user.uid;
+                    // })
+                Login.emailLastTime = email;
+                // Navigation();
+                toast('Login success.');
             }
         } catch (error) {
-            setLoginError(error.message);
+            toast('Login fail.');
         }
     };
 
@@ -127,7 +114,7 @@ export default class Login extends Component {
                                 value={password}
                                 secureTextEntry={hidePassword}
                                 onChangeText={password => this.setState({ password })}
-                                onSubmitEditing={() => navigation.navigate('Root')}
+                                onSubmitEditing={this.onLogin}
                             />
                         </FormLogin>
 
