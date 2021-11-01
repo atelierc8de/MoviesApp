@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
+import {View, TouchableOpacity, Image, StyleSheet, TextInput, Platform} from 'react-native';
 import UStyle from "../../system/UStyle";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UColor from "../../system/UColor";
@@ -17,17 +17,13 @@ export const Header = ({onChangeText, value}) => {
             </View>
 
             {showSearchForm ?
-                <View style={{height: 40, flexDirection: 'row', alignItems: 'center', paddingHorizontal:10, marginHorizontal:20, borderWidth: 1, marginTop:8, borderRadius:4, borderColor: '#CAD3DB', backgroundColor:UColor.whiteColor}}>
+                <View style={{height: 40, flexDirection: 'row', alignItems: 'center', marginHorizontal:20, borderWidth:1, marginTop:8, borderRadius:4, borderColor: '#CAD3DB', backgroundColor:UColor.whiteColor}}>
                     <TextInput
                         disableFullscreenUI
                         placeholder='Search'
                         returnKeyType='search'
                         value={value}
-                        style={{
-                            flex: 1,
-                            height: 40,
-                            fontSize: 16,
-                        }}
+                        style={{ flex: 1, height: 40, fontSize: 16, paddingHorizontal:10 }}
                         clearButtonMode='always'
                         onChangeText={onChangeText}
                         autoFocus={true}

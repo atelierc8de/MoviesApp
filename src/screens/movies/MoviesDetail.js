@@ -55,9 +55,27 @@ export default class MoviesDetail extends ListViewLogicExt {
     render() {
 
         const { data } = this.state;
-        const { poster_path, title, release_date: date, runtime, vote_average: vote, overview } = this.state.data;
+        const { poster_path, title, release_date: date, runtime, vote_average: vote, overview, genres=[] } = data;
         const { navigation } = this.props;
         const dataCast = data.credits?.cast;
+
+        const TypeItem = () => {
+            return(
+                <FlatList
+                    style={{marginTop:10}}
+                    data={genres}
+                    horizontal={true}
+                    keyExtractor={(item, index) => item.id.toString()}
+                    ItemSeparatorComponent={() => <View style={{width:1, height:17, marginHorizontal:7, backgroundColor:UColor.whiteColor, opacity:0.8}}/>}
+
+                    renderItem={
+                        ({item, index}) => {
+                            return <Text style={{fontSize:14, color:UColor.whiteColor, fontWeight:'400', opacity:0.8}}>{item.name}</Text>
+                        }
+                    }
+                />
+            )
+        }
 
         return (
             <View style={{ flex: 1 }}>
@@ -76,13 +94,13 @@ export default class MoviesDetail extends ListViewLogicExt {
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)', position: 'relative' }}>
                     <TrailerButton activeOpacity={0.8} onPress={() => navigation.navigate('Teaser', { dataTeaser: data.videos })}>
                         <View style={{backgroundColor:UColor.whiteColor, opacity:0.8, height:30, width:30, borderRadius:15, justifyContent:'center', alignItems:'center'}}>
-                            <Ionicons name={'play-circle'} size={20} color={UColor.favoriteColor}/>
+                            <Ionicons name={'play-circle'} size={20} color={UColor.favoriteColor} style={{right:-1}}/>
                         </View>
                         <Text style={{fontSize:14, color:UColor.whiteColor, fontWeight:'600', marginLeft:8, opacity:0.8}}>Watch Trailer</Text>
                     </TrailerButton>
-                    <LinearGradient colors={UColor.gradientMoviesDetail} style={{ height: 90, width: UStyle.deviceWidth, alignItems: 'center', position: 'absolute', top: -90, backgroundColor: 'rgba(0,0,0,0.1)' }}>
+                    <LinearGradient colors={UColor.gradientMoviesDetail} style={{ height: 110, width: UStyle.deviceWidth, alignItems: 'center', position: 'absolute', top: -110, backgroundColor: 'rgba(0,0,0,0.1)' }}>
                         <Text numberOfLines={1} style={{ fontSize: 26, fontWeight: 'bold', color: '#fff' }}>{title}</Text>
-
+                        <TypeItem />
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
                             <TextMoviesDetail UColor={UColor.whiteColor}>{moment(date).format('YYYY')}</TextMoviesDetail>
                             <TextMoviesDetail UColor={UColor.whiteColor} style={{paddingHorizontal: 3 }}>&#8226;</TextMoviesDetail>
@@ -100,7 +118,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                             <Text style={{fontSize:16, color:UColor.whiteColor, fontWeight:'600'}}>Plot Summary</Text>
                             <Text style={{ fontSize: 14, fontWeight: '400', color:UColor.whiteColor, marginTop:15 }}>{overview}</Text>
 
-                            <View style={{marginTop:30}}>
+                            <View style={{marginTop:30, marginBottom:UStyle.bottomSpace}}>
                                 <Text style={{fontSize:16, color:UColor.whiteColor, fontWeight:'600'}}>Cast</Text>
                                 <FlatList
                                     style={{marginTop:15}}
@@ -152,7 +170,7 @@ const TrailerButton = styled.TouchableOpacity`
   flex-direction: row; 
   position: absolute; 
   align-items: center; 
-  top: -150px; 
+  top: -170px; 
   background-color: rgba(255,255,255,0.2); 
   right: 0;
   padding: 0 10px;

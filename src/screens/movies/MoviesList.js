@@ -63,10 +63,7 @@ export default class MoviesList extends ListViewLogicExt {
 
         return (
             <View style={{flex:1}}>
-                <Header
-                    value={textSearch}
-                    onChangeText={(textSearch) => this.setState({textSearch})}
-                />
+                <Header value={textSearch} onChangeText={(textSearch) => this.setState({textSearch})}/>
 
                 <TextTitle>Popular</TextTitle>
                 <FlatList
