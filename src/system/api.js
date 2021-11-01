@@ -1,7 +1,6 @@
 import axios from "axios";
 import Config from "./config";
 
-
 export default class ServiceBase {
 
     /**
@@ -65,7 +64,4 @@ export default class ServiceBase {
     static getMovieDetail = ({cb, id}) => {
         ServiceBase.get({endpoint: `${id}?api_key=${Config.api_key}&append_to_response=videos,credits`, cb});
     }
-
 }
-
-

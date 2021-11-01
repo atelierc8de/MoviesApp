@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native-ui-lib';
-import { ImageBackground, TouchableOpacity } from "react-native";
+import {Image, ImageBackground, TouchableOpacity, ScrollView, FlatList} from "react-native";
 import { toast } from "../../components/common/Toast";
 import UServiceBase from "../../system/api";
-import { imageUrl } from "../data-sample/DataSample";
+import {imageUrl} from "./CustomizeData";
 import { LinearGradient } from 'expo-linear-gradient';
 import UStyle from "../../system/UStyle";
 import UUser from '../../system/UUser';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import moment from "moment";
 import { firestore } from '../../../firebaseConfig';
+import ListViewLogicExt from "../../components/common/ListViewLogicExt";
+import UColor from "../../system/UColor";
+import styled from "styled-components/native";
 
 
-export default class MoviesDetail extends Component {
+export default class MoviesDetail extends ListViewLogicExt {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: [],
-            refreshing: false
-        };
-    }
-
+    /**
+     *
+     */
     componentDidMount() {
         const { route } = this.props;
         UServiceBase.getMovieDetail({
@@ -57,52 +55,114 @@ export default class MoviesDetail extends Component {
     render() {
 
         const { data } = this.state;
-        const dataVideos = data.videos;
-        const { poster_path, title, release_date: date, runtime, vote_average: vote, overview } = data;
+        const { poster_path, title, release_date: date, runtime, vote_average: vote, overview } = this.state.data;
         const { navigation } = this.props;
-        console.log('UserDetailID', UUser.userId)
+        const dataCast = data.credits?.cast;
 
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground source={{ uri: `${imageUrl}${poster_path}` }} style={{ flex: 1 }}>
-                    <View style={{ marginTop: UStyle.statusBarHeight, paddingHorizontal: 10 }}>
+                    <View style={{ flexDirection:'row', justifyContent: 'space-between', marginTop: UStyle.statusBarHeight, paddingHorizontal: 10 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
-                            <Ionicons name={'ios-arrow-back'} size={30} color={'#fff'} />
+                            <Ionicons name={'ios-arrow-back'} size={30} color={UColor.whiteColor} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity activeOpacity={0.8} onPress={this.addMoviesFavorite} style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
+                            <Ionicons name={'heart'} size={30} color={UColor.favoriteColor} />
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
 
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)', position: 'relative' }}>
-                    <LinearGradient colors={['transparent', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,1)']} style={{ height: 90, width: UStyle.deviceWidth, alignItems: 'center', position: 'absolute', top: -90, backgroundColor: 'rgba(0,0,0,0.1)' }}>
+                    <TrailerButton activeOpacity={0.8} onPress={() => navigation.navigate('Teaser', { dataTeaser: data.videos })}>
+                        <View style={{backgroundColor:UColor.whiteColor, opacity:0.8, height:30, width:30, borderRadius:15, justifyContent:'center', alignItems:'center'}}>
+                            <Ionicons name={'play-circle'} size={20} color={UColor.favoriteColor}/>
+                        </View>
+                        <Text style={{fontSize:14, color:UColor.whiteColor, fontWeight:'600', marginLeft:8, opacity:0.8}}>Watch Trailer</Text>
+                    </TrailerButton>
+                    <LinearGradient colors={UColor.gradientMoviesDetail} style={{ height: 90, width: UStyle.deviceWidth, alignItems: 'center', position: 'absolute', top: -90, backgroundColor: 'rgba(0,0,0,0.1)' }}>
                         <Text numberOfLines={1} style={{ fontSize: 26, fontWeight: 'bold', color: '#fff' }}>{title}</Text>
 
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{moment(date).format('YYYY')}</Text>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8, paddingHorizontal: 3 }}>&#8226;</Text>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff', opacity: 0.8 }}>{Math.floor(runtime / 60)}h {runtime % 60}min</Text>
+                            <TextMoviesDetail UColor={UColor.whiteColor}>{moment(date).format('YYYY')}</TextMoviesDetail>
+                            <TextMoviesDetail UColor={UColor.whiteColor} style={{paddingHorizontal: 3 }}>&#8226;</TextMoviesDetail>
+                            <TextMoviesDetail UColor={UColor.whiteColor}>{Math.floor(runtime / 60)}h {runtime % 60}min</TextMoviesDetail>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '500', color: 'yellow', opacity: 0.8, marginRight: 3 }}>{vote}</Text>
+                            <TextMoviesDetail UColor={UColor.yellow} fontWeight={500} style={{marginRight: 3 }}>{vote}</TextMoviesDetail>
                             {[0, 1, 2, 3, 4].map((item, i) => (
                                 <Ionicons key={item.toString()} name={'star'} size={16} color={i === 4 ? 'gray' : 'yellow'} style={{ opacity: 0.8, marginLeft: 2 }} />
                             ))}
                         </View>
                     </LinearGradient>
                     <View style={{ flex: 1, marginTop: 8, paddingHorizontal: 15 }}>
-                        <Text style={{ fontSize: 14, fontWeight: '400', color: '#fff' }}>{data.overview}</Text>
+                        <ScrollView>
+                            <Text style={{fontSize:16, color:UColor.whiteColor, fontWeight:'600'}}>Plot Summary</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '400', color:UColor.whiteColor, marginTop:15 }}>{overview}</Text>
 
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
-                            <TouchableOpacity activeOpacity={0.9} onPress={() => navigation.navigate('Teaser', { dataVideos: dataVideos })} style={{ paddingHorizontal: 25, paddingVertical: 8, backgroundColor: 'red', opacity: 0.8, borderRadius: 6 }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>Watch Now</Text>
-                            </TouchableOpacity>
+                            <View style={{marginTop:30}}>
+                                <Text style={{fontSize:16, color:UColor.whiteColor, fontWeight:'600'}}>Cast</Text>
+                                <FlatList
+                                    style={{marginTop:15}}
+                                    data={dataCast}
+                                    horizontal={true}
+                                    keyExtractor={(item, index) => item.id.toString()}
+                                    ItemSeparatorComponent={() => <View style={{width:25}}/>}
 
-                            <TouchableOpacity activeOpacity={0.9} onPress={this.addMoviesFavorite} style={{ marginTop: 20, paddingHorizontal: 25, paddingVertical: 8, backgroundColor: 'green', opacity: 0.8, borderRadius: 6 }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>Add Favorite</Text>
-                            </TouchableOpacity>
-                        </View>
+                                    renderItem={
+                                        ({item, index}) => {
+                                            return <CastItem {...item}/>
+                                        }
+                                    }
+                                />
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             </View>
         );
     }
 }
+
+/**
+ *
+ * @param image
+ * @param name
+ * @param character
+ * @constructor
+ */
+const CastItem = ({profile_path: image, name, character}) => {
+
+    const scaleImage = 50;
+    const borderRadius = scaleImage/2;
+
+    return(
+        <View style={{alignItems:'center'}}>
+            {image?<Image source={{uri: `${imageUrl}${image}`}} style={{width:scaleImage, height:scaleImage, borderRadius:borderRadius}}/>:<View style={{width:scaleImage, height:scaleImage, justifyContent:'center', alignItems:'center', borderRadius:borderRadius, backgroundColor:UColor.whiteColor}}>
+                <Ionicons name={'people-circle'} size={30} />
+            </View>}
+            <Text style={{color:UColor.whiteColor, fontSize:11, fontWeight:'500', marginTop:5}}>{name}</Text>
+            <Text style={{color:UColor.whiteColor, fontSize:9, fontWeight:'500', marginTop:5, opacity:0.8}}>{character}</Text>
+        </View>
+    );
+};
+
+const TrailerButton = styled.TouchableOpacity`
+  height: 40px;
+  flex-direction: row; 
+  position: absolute; 
+  align-items: center; 
+  top: -150px; 
+  background-color: rgba(255,255,255,0.2); 
+  right: 0;
+  padding: 0 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+`;
+
+const TextMoviesDetail = styled.Text`
+  font-size: 16px;
+  font-weight: ${props => props.fontWeight?props.fontWeight:'400'};
+  opacity: 0.8;
+  color: ${props => props.UColor};
+`;

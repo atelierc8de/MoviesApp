@@ -1,12 +1,9 @@
-import React, {useContext} from 'react';
-import {View, Text} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {Button} from "react-native-ui-lib";
 import {auth} from '../../../firebaseConfig';
-import {AuthenticatedUserContext} from "../../navigation/AuthenticatedUserProvider";
 
 export default function Logout(){
-
-    const { user } = useContext(AuthenticatedUserContext);
 
     const logout = async () => {
         try {
@@ -17,9 +14,6 @@ export default function Logout(){
 
     return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-
-            <Text>Email: {user.email}</Text>
-            <Text>Your UID is: {user.uid}</Text>
 
             <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
                     label="LOGOUT"

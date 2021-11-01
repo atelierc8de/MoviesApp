@@ -41,13 +41,6 @@ export default class UUser {
 
     /**
      *
-     * @type {{}}
-     */
-    static cache = {};
-    static dataUser = [];
-
-    /**
-     *
      * @type {string}
      * @private
      */

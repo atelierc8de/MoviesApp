@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,7 +16,7 @@ export default function Navigation() {
 
     return (
         <NavigationContainer>
-            {UUser.userId ? <MoviesNavigator/> : <UserNavigator/>}
+            <MoviesNavigator/>
         </NavigationContainer>
     );
 }

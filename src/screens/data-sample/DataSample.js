@@ -1,40 +1,7 @@
-import moment from "moment";
-export const imageUrl = 'https://image.tmdb.org/t/p/w500/';
-
-export const customizeData = (data) => {
-    return data.map((item, index) => {
-        return{
-            id: item.id,
-            title: item.title,
-            image: `${imageUrl}${item.poster_path}`,
-            time: item.runtime,
-            language: item.original_language,
-            date: moment(item.release_date).format('DD-MMM-YYYY'),
-            overview: item.overview,
-            starring: item.tagline,
-            idmb: item.vote_average,
-            vote: item.vote_count
-        }
-    });
-};
-
-const imagePosterUrl = 'https://image.tmdb.org/t/p/w500';
-export const customizeDataFavorite = (data) => {
-    return data.map((item, index) => {
-        return{
-            id: item.id,
-            title: item.title,
-            image: `${imagePosterUrl}${item.poster_path}`,
-            time: item.runtime,
-            language: item.original_language,
-            date: moment(item.release_date).format('DD-MMM-YYYY'),
-            idmb: item.vote_average,
-            vote: item.vote_count
-        }
-    });
-};
-
-
+/**
+ *
+ * @type {{moviesList: [{original_language: string, imdb_id: string, video: boolean, title: string, backdrop_path: string, revenue: number, genres: [{name: string, id: number}], popularity: number, production_countries: [{iso_3166_1: string, name: string}, {iso_3166_1: string, name: string}], id: number, vote_count: number, budget: number, overview: string, original_title: string, runtime: number, poster_path: string, spoken_languages: [{name: string, iso_639_1: string, english_name: string}], production_companies, release_date: string, vote_average: number, belongs_to_collection: null, tagline: string, adult: boolean, homepage: string, status: string}]}}
+ */
 export const dataSample = {
     moviesList: [
         {
