@@ -26,8 +26,7 @@ export default class ListViewLogicExt extends Component {
             isWaiting:false, // for show loading indication, normal in show in tab bar
 
 
-            textSearchInTextInput:'', // for display in text input only
-            textSearchInResultDescription:'', // for display in result description
+            textSearch:'', // for display in text input only
             searchCount:0,  // for display in result description
             showResultDescription:false,  // show/hide the result description
         };

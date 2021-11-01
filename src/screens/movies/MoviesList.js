@@ -9,6 +9,7 @@ import { auth } from '../../../firebaseConfig';
 import UUser from '../../system/UUser';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
 import {MoviesItem, TextTitle} from "../../components/common/Element";
+import {convertStringHaveSpecialChars} from "../../system/UUtility";
 
 export default class MoviesList extends ListViewLogicExt {
 
@@ -51,25 +52,32 @@ export default class MoviesList extends ListViewLogicExt {
 
     render() {
 
-        const {data} = this.state;
+        const {data, textSearch} = this.state;
         const {navigation} = this.props;
+
+        const dataSearchMoviesList = data.filter(item => {
+            return (
+                item.title.toString().match(new RegExp(convertStringHaveSpecialChars(textSearch), 'i'))
+            );
+        });
 
         return (
             <View style={{flex:1}}>
-                <Header/>
+                <Header
+                    value={textSearch}
+                    onChangeText={(textSearch) => this.setState({textSearch})}
+                />
 
                 <TextTitle>Popular</TextTitle>
                 <FlatList
                     style={{paddingHorizontal: 20}}
-                    data={customizeDataMovies(data)}
+                    data={customizeDataMovies(dataSearchMoviesList)}
                     keyExtractor={(item, index) => item.id.toString()}
                     ListHeaderComponent={() => <View style={{height: 30}}/>}
                     ItemSeparatorComponent={() => <View style={{height: 30}}/>}
                     ListFooterComponent={() => <View style={{height: 20}}/>}
 
                     onEndReached={this.loadMore}
-
-                    // extraData={this.state}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}

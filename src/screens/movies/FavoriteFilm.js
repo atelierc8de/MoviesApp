@@ -7,7 +7,7 @@ import UUser from '../../system/UUser';
 import {Header} from "../../components/common/Header";
 import {MoviesItem, TextTitle} from "../../components/common/Element";
 
-export default function FavoriteFilm({navigation}){
+export default function FavoriteFilm({}){
 
     const [data, setData] = useState([]);
 
@@ -47,7 +47,7 @@ export default function FavoriteFilm({navigation}){
 
                 renderItem={
                     ({item, index}) => {
-                        return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', {id: item.id})}/>
+                        return <MoviesItem {...item}/>
                     }
                 }
             />
