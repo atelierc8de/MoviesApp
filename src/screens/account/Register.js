@@ -5,7 +5,7 @@ import UStyle from "../../system/UStyle";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "react-native-ui-lib";
 import { auth } from '../../../firebaseConfig';
-import {toast} from "../../components/common/Toast";
+import { toast } from "../../components/common/Toast";
 
 export default class Register extends Component {
 
@@ -45,6 +45,7 @@ export default class Register extends Component {
         try {
             if (this.validate()) {
                 await auth.createUserWithEmailAndPassword(email, password);
+                console.log('register', email, password)
                 this.props.navigation.navigate('Login');
                 toast('Register success.');
             }
@@ -77,7 +78,7 @@ export default class Register extends Component {
                 <KeyboardAwareScrollView>
                     <View style={{ height: topSpace + 20 + 20, width: UStyle.deviceWidth }} />
 
-                    <View style={{flex: 1, justifyContent: 'center', paddingHorizontal: 20}} onLayout={this.measureComponentHeight}>
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 20 }} onLayout={this.measureComponentHeight}>
 
                         <FormRegister iconName={'people-sharp'}>
                             <TextInput

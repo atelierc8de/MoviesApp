@@ -7,14 +7,15 @@ import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast";
 import UUser from "../../system/UUser";
+import { mobxUser } from '../../mobx/mobxUser';
 
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: Login.emailLastTime,
-            password: '',
+            email: 'nguyen111@gmail.com',
+            password: '123456',
 
             hidePassword: true,
         };
@@ -49,10 +50,10 @@ export default class Login extends Component {
                 await auth.signInWithEmailAndPassword(email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
+                        mobxUser.saveUID(user.uid);
                         UUser.userId = user.uid;
                     })
                 Login.emailLastTime = email;
-                console.log('UUser.userId', UUser.userId);
                 this.setState({});
                 toast('Login success.');
             }

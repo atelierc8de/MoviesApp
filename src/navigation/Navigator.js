@@ -10,16 +10,16 @@ import Teaser from "../screens/movies/Teaser";
 import FavoriteFilm from "../screens/movies/FavoriteFilm";
 import Register from "../screens/account/Register";
 import Logout from "../screens/account/Logout";
-import UUser from "../system/UUser";
+import { mobxUser } from '../mobx/mobxUser';
+import { observer } from "mobx-react";
 
-export default function Navigation() {
-
+const Navigation = observer(() => {
     return (
         <NavigationContainer>
-            <MoviesNavigator/>
+            {!mobxUser.uID ? <UserNavigator/>:<MoviesNavigator/>}
         </NavigationContainer>
     );
-}
+});
 
 const Stack = createNativeStackNavigator();
 /**
@@ -32,7 +32,7 @@ export function MoviesNavigator() {
             <Stack.Screen name={'Movies'} component={BottomTabNavigator} options={{headerShown: false}}/>
             <Stack.Screen name={'MoviesDetail'} component={MoviesDetail} options={{headerShown: false}}/>
             <Stack.Group>
-                <Stack.Screen name={'Teaser'} component={Teaser} options={{headerShown: false, presentation: 'transparentModal'}}/>
+                <Stack.Screen name={'Teaser'} component={Teaser} options={{ headerShown: false, presentation: 'transparentModal' }} />
             </Stack.Group>
         </Stack.Navigator>
     );
@@ -65,7 +65,7 @@ function BottomTabNavigator() {
                 options={{
                     headerShown: false,
                     tabBarLabel: 'Home',
-                    tabBarIcon: ({color}) => <TabBarIcon name="home" color={color}/>
+                    tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />
                 }}
             />
             <BottomTab.Screen
@@ -74,7 +74,7 @@ function BottomTabNavigator() {
                 options={{
                     headerShown: false,
                     tabBarLabel: 'Favorite Film',
-                    tabBarIcon: ({color}) => <TabBarIcon name="logo-closed-captioning" color={color}/>
+                    tabBarIcon: ({ color }) => <TabBarIcon name="logo-closed-captioning" color={color} />
                 }}
             />
             <BottomTab.Screen
@@ -96,6 +96,8 @@ function BottomTabNavigator() {
  * @param color
  * @constructor
  */
-const TabBarIcon = ({name = '', color}) => {
-    return <Ionicons name={name} color={color} size={26} style={{marginBottom: -3}}/>
+const TabBarIcon = ({ name = '', color }) => {
+    return <Ionicons name={name} color={color} size={26} style={{ marginBottom: -3 }} />
 };
+
+export default Navigation;
