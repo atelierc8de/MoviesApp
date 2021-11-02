@@ -9,7 +9,7 @@ import {MoviesItem, TextTitle} from "../../components/common/Element";
 import UColor from "../../system/UColor";
 import {convertStringHaveSpecialChars} from "../../system/UUtility";
 
-export default function FavoriteFilm(){
+export default function FavoriteFilm({navigation}){
 
     const [data, setData] = useState([]);
     const [textSearch, setTextSearch] = useState('');
@@ -52,8 +52,8 @@ export default function FavoriteFilm(){
             <TextTitle>Favorite</TextTitle>
             <FlatList
                 style={{paddingHorizontal: 20}}
-                data={dataFiltered}
-                keyExtractor={(item, index) => item.id.toString()}
+                data={data}
+                keyExtractor={item => item.id.toString()}
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}
                 ListFooterComponent={() => <View style={{height: 20}}/>}
@@ -63,8 +63,8 @@ export default function FavoriteFilm(){
                 </View>:null)}
 
                 renderItem={
-                    ({item, index}) => {
-                        return <MoviesItem {...item}/>
+                    ({item}) => {
+                        return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', {id: item.id})}/>
                     }
                 }
             />

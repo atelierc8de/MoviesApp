@@ -22,7 +22,7 @@ const imagePosterUrl = 'https://image.tmdb.org/t/p/w500';
 export const customizeDataFavorite = (data) => {
     return data.map((item, index) => {
         return{
-            id: item.id,
+            id: item.movieID,
             title: item.title,
             image: `${imagePosterUrl}${item.poster_path}`,
             time: item.runtime,

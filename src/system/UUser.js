@@ -5,6 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  */
 export default class UUser {
 
+    static initDataFromStorage = async (cb) => {
+        UUser._userId = await UUser.getUser('user_ID', null);
+        cb();
+    };
+
     /**
      *
      * @param key
@@ -35,6 +40,8 @@ export default class UUser {
             return _return
         } catch (e) {
         }
+
+        console.log('_return', _return);
 
         return _return;
     };
@@ -78,9 +85,7 @@ export default class UUser {
      */
     static set userId(value) {
         UUser._userId = value;
-        if (__DEV__) {
-            UUser.storeUser('user_ID', value).then();
-        }
+        UUser.storeUser('user_ID', value).then();
     };
 
     /**

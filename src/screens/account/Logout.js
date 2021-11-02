@@ -1,12 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Button} from "react-native-ui-lib";
-import {mobxUser} from "../../mobx/mobxUser";
+import { mobxUser } from '../../mobx/mobxUser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Logout(){
 
-    const logout = () => {
-        mobxUser.uID = '';
+    const logout = async () => {
+       mobxUser.uID = '';
+       await AsyncStorage.removeItem('user_ID');
     };
 
     return (

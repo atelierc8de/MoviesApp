@@ -13,8 +13,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: Login.emailLastTime,
-            password: '',
+            email: 'nguyen111@gmail.com',
+            password: '1234hi',
 
             hidePassword: true,
             isLoginUserLoading: false,
@@ -54,7 +54,7 @@ export default class Login extends Component {
                         const user = userCredential.user;
                         mobxUser.saveUID(user.uid);
                     })
-                Login.emailLastTime = this.state.email;
+                Login.emailLastTime = email;
                 toast('Login success.');
             }
             this.setState({isLoginUserLoading: false});
@@ -78,6 +78,10 @@ export default class Login extends Component {
         topSpace = topSpace > 0 ? topSpace : 0;
 
         const { navigation } = this.props;
+
+        console.log('UUserIDStore', UUser.userId)
+
+
 
         return (
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{ flex: 1, height: UStyle.deviceHeight }}>
