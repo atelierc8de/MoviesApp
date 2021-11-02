@@ -1,10 +1,11 @@
 import { makeAutoObservable } from "mobx";
 
 class MobxUser {
-    uID = ''
+
+    uID = '';
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this);
     }
 
     saveUID(id) {

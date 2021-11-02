@@ -1,15 +1,12 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Button} from "react-native-ui-lib";
-import {auth} from '../../../firebaseConfig';
+import {mobxUser} from "../../mobx/mobxUser";
 
 export default function Logout(){
 
-    const logout = async () => {
-        try {
-            await auth.signOut();
-        } catch (e) {
-        }
+    const logout = () => {
+        mobxUser.uID = '';
     };
 
     return (

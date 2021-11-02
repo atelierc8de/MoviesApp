@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {View} from 'react-native-ui-lib';
-import {FlatList} from 'react-native';
+import {FlatList, Text} from 'react-native';
 import {firestore} from '../../../firebaseConfig';
 import {customizeDataFavorite} from './CustomizeData';
 import UUser from '../../system/UUser';
 import {Header} from "../../components/common/Header";
 import {MoviesItem, TextTitle} from "../../components/common/Element";
+import UColor from "../../system/UColor";
+import {convertStringHaveSpecialChars} from "../../system/UUtility";
 
 export default function FavoriteFilm({}){
 
     const [data, setData] = useState([]);
+    const [textSearch, setTextSearch] = useState('');
 
     useEffect(() => {
         _getDataFromFirebase();
@@ -32,18 +35,28 @@ export default function FavoriteFilm({}){
             });
     }
 
+    const dataSearchMoviesList = data.filter(item => {
+        return (
+            item.title.toString().match(new RegExp(convertStringHaveSpecialChars(textSearch), 'i'))
+        );
+    });
+
     return (
         <View style={{flex:1}}>
-            <Header/>
+            <Header value={textSearch} onChangeText={(textSearch) => setTextSearch(textSearch)}/>
 
             <TextTitle>Favorite</TextTitle>
             <FlatList
                 style={{paddingHorizontal: 20}}
-                data={data}
+                data={dataSearchMoviesList}
                 keyExtractor={(item, index) => item.id.toString()}
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}
                 ListFooterComponent={() => <View style={{height: 20}}/>}
+
+                ListEmptyComponent={() => (data.length===0?<View style={{justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15}}>
+                    <Text style={{fontSize:16, color:UColor.textDark, textAlign:'center'}}>Favorite film empty!</Text>
+                </View>:null)}
 
                 renderItem={
                     ({item, index}) => {

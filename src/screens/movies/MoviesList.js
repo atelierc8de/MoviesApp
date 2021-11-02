@@ -38,7 +38,7 @@ export default class MoviesList extends ListViewLogicExt {
         }
 
         this.onGetUserID();
-    }
+    };
 
     onGetUserID = () => {
         auth.onAuthStateChanged(function (user) {
@@ -48,7 +48,7 @@ export default class MoviesList extends ListViewLogicExt {
                 toast('error!');
             }
         });
-    }
+    };
 
     render() {
 

@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Button } from "react-native-ui-lib";
 import { auth } from '../../../firebaseConfig';
 import { toast } from "../../components/common/Toast";
+import {TextInputForm} from "../../components/common/Element";
 
 export default class Register extends Component {
 
@@ -36,16 +37,14 @@ export default class Register extends Component {
         return true;
     };
 
-
     /**
     *
     */
-    onHandleSignup = async () => {
+    register = async () => {
         const { email, password } = this.state;
         try {
             if (this.validate()) {
                 await auth.createUserWithEmailAndPassword(email, password);
-                console.log('register', email, password)
                 this.props.navigation.navigate('Login');
                 toast('Register success.');
             }
@@ -80,7 +79,7 @@ export default class Register extends Component {
 
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 20 }} onLayout={this.measureComponentHeight}>
 
-                        <FormRegister iconName={'people-sharp'}>
+                        <TextInputForm iconName={'people-sharp'}>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 placeholder='Enter...'
@@ -94,9 +93,9 @@ export default class Register extends Component {
                                     this.passwordTextInput.focus();
                                 }}
                             />
-                        </FormRegister>
+                        </TextInputForm>
 
-                        <FormRegister iconName={'key-sharp'} top>
+                        <TextInputForm iconName={'key-sharp'} top>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 ref={(input) => {
@@ -109,15 +108,15 @@ export default class Register extends Component {
                                 value={password}
                                 secureTextEntry={hidePassword}
                                 onChangeText={password => this.setState({ password })}
-                                onSubmitEditing={this.onHandleSignup}
+                                onSubmitEditing={this.register}
                             />
-                        </FormRegister>
+                        </TextInputForm>
 
                         <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
                             label="REGISTER"
                             labelStyle={{ fontWeight: '600' }}
                             style={{ marginTop: 40, height: 50, borderRadius: 4 }}
-                            onPress={this.onHandleSignup}
+                            onPress={this.register}
                             fullWidth
                         />
 
@@ -127,29 +126,3 @@ export default class Register extends Component {
         );
     }
 }
-
-/**
- *
- * @param children
- * @param iconName
- * @param iconColor
- * @param top
- * @constructor
- */
-const FormRegister = ({ children, iconName = '', iconColor, top }) => {
-    return (
-        <View style={{
-            height: 50,
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: top ? 20 : 0,
-            borderRadius: 4,
-            backgroundColor: '#FFF',
-            paddingHorizontal: 15,
-            opacity: 0.7
-        }}>
-            <Ionicons name={iconName} size={24} color={iconColor} style={{ marginRight: 5 }} />
-            {children}
-        </View>
-    );
-};

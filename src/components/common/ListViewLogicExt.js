@@ -25,6 +25,8 @@ export default class ListViewLogicExt extends Component {
             data: [], // list data
             isWaiting:false, // for show loading indication, normal in show in tab bar
 
+            istFavorite: [],
+            isAddFavorite: false,
 
             textSearch:'', // for display in text input only
             searchCount:0,  // for display in result description
@@ -54,8 +56,6 @@ export default class ListViewLogicExt extends Component {
         this.isSearch = false;
 
         this.textSearch = '';
-
-
     }
 
     /**
@@ -81,9 +81,7 @@ export default class ListViewLogicExt extends Component {
      *
      */
     componentWillUnmount() {
-
         this.isCMounted = false; // now setState is unsafe
-
     }
 
     /**
@@ -171,17 +169,13 @@ export default class ListViewLogicExt extends Component {
         this.loading = false;
     };
 
-
     /**
      *
      * @param data
      */
     customizeData = (data) => {
-
         return this.customizeDataFunc(data);
-
     };
-
 
     /**
      * loadFirstPage used after init UI list view or refresh data by user
@@ -198,12 +192,10 @@ export default class ListViewLogicExt extends Component {
         }
     };
 
-
     /**
      * loadMore called by flat list when user scroll to end of scroll view
      */
     loadMore = () => {
         this.getData();
     };
-
 }

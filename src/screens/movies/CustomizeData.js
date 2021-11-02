@@ -42,7 +42,7 @@ export const customizeDataTeaser = (data) => {
             keyUrl: `${youtubeUrl}${item.key}`,
             name: item.name,
             quality: item.size,
-            dateUpload: moment(item.published_at).format('DD-MMM-YYYY')
+            dateUpload: moment(item.published_at, 'YYYY-MM-DD').format('DD-MMM-YYYY') || 'N/A'
         }
     });
 };

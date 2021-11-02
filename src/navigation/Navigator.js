@@ -13,7 +13,7 @@ import Logout from "../screens/account/Logout";
 import { mobxUser } from '../mobx/mobxUser';
 import { observer } from "mobx-react";
 
-const Navigation = observer(() => {
+export const Navigation = observer(() => {
     return (
         <NavigationContainer>
             {!mobxUser.uID ? <UserNavigator/>:<MoviesNavigator/>}
@@ -26,7 +26,7 @@ const Stack = createNativeStackNavigator();
  *
  * @constructor
  */
-export function MoviesNavigator() {
+function MoviesNavigator() {
     return (
         <Stack.Navigator screenOptions={{gestureEnabled: false}}>
             <Stack.Screen name={'Movies'} component={BottomTabNavigator} options={{headerShown: false}}/>
@@ -42,7 +42,7 @@ export function MoviesNavigator() {
  *
  * @constructor
  */
-export function UserNavigator() {
+function UserNavigator() {
     return (
         <Stack.Navigator screenOptions={{gestureEnabled: false}}>
             <Stack.Screen name={'Login'} component={Login} options={{headerShown: false}}/>
@@ -58,7 +58,7 @@ const BottomTab = createBottomTabNavigator();
  */
 function BottomTabNavigator() {
     return (
-        <BottomTab.Navigator initialRouteName='Home' screenOptions={{}}>
+        <BottomTab.Navigator initialRouteName='Home' screenOptions={{tabBarActiveTintColor: '#e91e63'}}>
             <BottomTab.Screen
                 name={'Home'}
                 component={MoviesList}
@@ -74,7 +74,7 @@ function BottomTabNavigator() {
                 options={{
                     headerShown: false,
                     tabBarLabel: 'Favorite Film',
-                    tabBarIcon: ({ color }) => <TabBarIcon name="logo-closed-captioning" color={color} />
+                    tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />
                 }}
             />
             <BottomTab.Screen
@@ -99,5 +99,3 @@ function BottomTabNavigator() {
 const TabBarIcon = ({ name = '', color }) => {
     return <Ionicons name={name} color={color} size={26} style={{ marginBottom: -3 }} />
 };
-
-export default Navigation;

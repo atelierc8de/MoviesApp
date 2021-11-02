@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import { TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet } from 'react-native';
+import { TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { View, Button } from 'react-native-ui-lib';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast";
 import UUser from "../../system/UUser";
 import { mobxUser } from '../../mobx/mobxUser';
+import {TextInputForm} from "../../components/common/Element";
 
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: 'nguyen111@gmail.com',
-            password: '123456',
+            email: Login.emailLastTime,
+            password: '',
 
             hidePassword: true,
+            isLoginUserLoading: false,
         };
     }
 
@@ -43,20 +44,22 @@ export default class Login extends Component {
      *
      * @returns {Promise<void>}
      */
-    onLogin = async () => {
+    login = async () => {
         const { email, password } = this.state;
         try {
-            if (this.validate()) {
+            if (this.validate() && !this.state.isLoginUserLoading) {
+                this.setState({isLoginUserLoading: true});
+
                 await auth.signInWithEmailAndPassword(email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
                         mobxUser.saveUID(user.uid);
-                        UUser.userId = user.uid;
                     })
-                Login.emailLastTime = email;
-                this.setState({});
+                Login.emailLastTime = this.state.email;
+                // this.setState({});
                 toast('Login success.');
             }
+            this.setState({isLoginUserLoading: false});
         } catch (error) {
             toast('Login fail.');
         }
@@ -71,7 +74,7 @@ export default class Login extends Component {
 
     render() {
 
-        const { email, password, hidePassword, formHeight = 500 } = this.state;
+        const { email, password, hidePassword, isLoginUserLoading, formHeight = 500 } = this.state;
         let topSpace = (UStyle.deviceHeight - formHeight) / 2;
         topSpace = topSpace > 0 ? topSpace : 0;
 
@@ -85,7 +88,7 @@ export default class Login extends Component {
 
                     <View style={styles.container} onLayout={this.measureComponentHeight}>
 
-                        <FormLogin iconName={'people-sharp'}>
+                        <TextInputForm iconName={'people-sharp'}>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 placeholder='Enter...'
@@ -99,9 +102,9 @@ export default class Login extends Component {
                                     this.passwordTextInput.focus();
                                 }}
                             />
-                        </FormLogin>
+                        </TextInputForm>
 
-                        <FormLogin iconName={'key-sharp'} top>
+                        <TextInputForm iconName={'key-sharp'} top>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 ref={(input) => {
@@ -114,17 +117,19 @@ export default class Login extends Component {
                                 value={password}
                                 secureTextEntry={hidePassword}
                                 onChangeText={password => this.setState({ password })}
-                                onSubmitEditing={this.onLogin}
+                                onSubmitEditing={this.login}
                             />
-                        </FormLogin>
+                        </TextInputForm>
 
                         <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
-                            label="SIGN IN"
-                            labelStyle={{ fontWeight: '600' }}
-                            style={{ marginTop: 40, height: 50, borderRadius: 4 }}
-                            onPress={this.onLogin}
-                            fullWidth
-                        />
+                                label="SIGN IN"
+                                labelStyle={{ fontWeight: '600' }}
+                                style={{ marginTop: 40, height: 50, borderRadius: 4 }}
+                                onPress={this.login}
+                                fullWidth
+                        >
+                            <ActivityIndicator animating={isLoginUserLoading} size="small" color="#FFF" style={{position: 'absolute', right: 50 / 2}}/>
+                        </Button>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Register')} style={{ padding: 5, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 4 }} >
@@ -139,36 +144,10 @@ export default class Login extends Component {
     }
 }
 
-/**
- *
- * @param children
- * @param iconName
- * @param iconColor
- * @param top
- * @constructor
- */
-const FormLogin = ({ children, iconName = '', iconColor, top }) => {
-    return (
-        <View style={{
-            height: 50,
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: top ? 20 : 0,
-            borderRadius: 4,
-            backgroundColor: '#FFF',
-            paddingHorizontal: 15,
-            opacity: 0.7
-        }}>
-            <Ionicons name={iconName} size={24} color={iconColor} style={{ marginRight: 5 }} />
-            {children}
-        </View>
-    );
-};
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 20
     }
-})
+});
