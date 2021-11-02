@@ -9,7 +9,7 @@ import {MoviesItem, TextTitle} from "../../components/common/Element";
 import UColor from "../../system/UColor";
 import {convertStringHaveSpecialChars} from "../../system/UUtility";
 
-export default function FavoriteFilm({}){
+export default function FavoriteFilm(){
 
     const [data, setData] = useState([]);
     const [textSearch, setTextSearch] = useState('');
@@ -35,7 +35,11 @@ export default function FavoriteFilm({}){
             });
     }
 
-    const dataSearchMoviesList = data.filter(item => {
+    /**
+     * Data searching Favorite Film
+     * @type {*[]}
+     */
+    const dataFiltered = data.filter(item => {
         return (
             item.title.toString().match(new RegExp(convertStringHaveSpecialChars(textSearch), 'i'))
         );
@@ -48,7 +52,7 @@ export default function FavoriteFilm({}){
             <TextTitle>Favorite</TextTitle>
             <FlatList
                 style={{paddingHorizontal: 20}}
-                data={dataSearchMoviesList}
+                data={dataFiltered}
                 keyExtractor={(item, index) => item.id.toString()}
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}

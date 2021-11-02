@@ -55,7 +55,7 @@ export default class MoviesList extends ListViewLogicExt {
         const {data, textSearch} = this.state;
         const {navigation} = this.props;
 
-        const dataSearchMoviesList = data.filter(item => {
+        const dataFiltered = data.filter(item => {
             return (
                 item.title.toString().match(new RegExp(convertStringHaveSpecialChars(textSearch), 'i'))
             );
@@ -68,7 +68,7 @@ export default class MoviesList extends ListViewLogicExt {
                 <TextTitle>Popular</TextTitle>
                 <FlatList
                     style={{paddingHorizontal: 20}}
-                    data={customizeDataMovies(dataSearchMoviesList)}
+                    data={customizeDataMovies(dataFiltered)}
                     keyExtractor={(item, index) => item.id.toString()}
                     ListHeaderComponent={() => <View style={{height: 30}}/>}
                     ItemSeparatorComponent={() => <View style={{height: 30}}/>}

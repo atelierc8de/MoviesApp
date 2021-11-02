@@ -15,7 +15,6 @@ import UColor from "../../system/UColor";
 import {mobxUser} from "../../mobx/mobxUser";
 import {TextMoviesDetail, TrailerButton} from "../../components/common/Element";
 
-
 export default class MoviesDetail extends ListViewLogicExt {
 
     /**
@@ -87,8 +86,6 @@ export default class MoviesDetail extends ListViewLogicExt {
         const {navigation} = this.props;
         const dataCast = data.credits?.cast;
 
-        console.log(data.videos);
-
         const TypeItem = () => {
             return (
                 <FlatList
@@ -140,7 +137,6 @@ export default class MoviesDetail extends ListViewLogicExt {
                 </ImageBackground>
 
                 <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,1)', position: 'relative'}}>
-
                     <LinearGradient colors={UColor.gradientMoviesDetail} style={{
                         height: 110,
                         width: UStyle.deviceWidth,
@@ -152,7 +148,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                         <Text numberOfLines={1} style={{fontSize: 26, fontWeight: 'bold', color: '#fff'}}>{title}</Text>
                         <TypeItem/>
                         <View style={{flexDirection: 'row', marginTop: 5}}>
-                            <TextMoviesDetail UColor={UColor.whiteColor}>{moment(date).format('YYYY')}</TextMoviesDetail>
+                            <TextMoviesDetail UColor={UColor.whiteColor}>{moment(date, 'YYYY-MM-DD').format('YYYY')}</TextMoviesDetail>
                             <TextMoviesDetail UColor={UColor.whiteColor} style={{paddingHorizontal: 3}}>&#8226;</TextMoviesDetail>
                             <TextMoviesDetail UColor={UColor.whiteColor}>{Math.floor(runtime / 60)}h {runtime % 60}min</TextMoviesDetail>
                         </View>

@@ -15,5 +15,6 @@ export default class UColor {
     static yellow = '#FFFF00';
     static pinky = '#C32148';
     static orange = '#FF4500';
+    static colorBottomNavigator = '#E91E63';
 
 }

@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast";
-import UUser from "../../system/UUser";
 import { mobxUser } from '../../mobx/mobxUser';
 import {TextInputForm} from "../../components/common/Element";
 
@@ -56,13 +55,13 @@ export default class Login extends Component {
                         mobxUser.saveUID(user.uid);
                     })
                 Login.emailLastTime = this.state.email;
-                // this.setState({});
                 toast('Login success.');
             }
             this.setState({isLoginUserLoading: false});
         } catch (error) {
             toast('Login fail.');
         }
+        this.setState({isLoginUserLoading: false});
     };
 
     /**
@@ -82,7 +81,6 @@ export default class Login extends Component {
 
         return (
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{ flex: 1, height: UStyle.deviceHeight }}>
-
                 <KeyboardAwareScrollView>
                     <View style={{ height: topSpace + 20 + 20, width: UStyle.deviceWidth }} />
 

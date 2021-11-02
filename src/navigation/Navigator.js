@@ -12,6 +12,7 @@ import Register from "../screens/account/Register";
 import Logout from "../screens/account/Logout";
 import { mobxUser } from '../mobx/mobxUser';
 import { observer } from "mobx-react";
+import UColor from "../system/UColor";
 
 export const Navigation = observer(() => {
     return (
@@ -58,7 +59,7 @@ const BottomTab = createBottomTabNavigator();
  */
 function BottomTabNavigator() {
     return (
-        <BottomTab.Navigator initialRouteName='Home' screenOptions={{tabBarActiveTintColor: '#e91e63'}}>
+        <BottomTab.Navigator initialRouteName='Home' screenOptions={{tabBarActiveTintColor: UColor.colorBottomNavigator}}>
             <BottomTab.Screen
                 name={'Home'}
                 component={MoviesList}

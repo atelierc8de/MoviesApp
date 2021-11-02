@@ -9,7 +9,7 @@ export const customizeDataMovies = (data) => {
             image: `${imageUrl}${item.poster_path}`,
             time: item.runtime,
             language: item.original_language,
-            date: moment(item.release_date).format('DD-MMM-YYYY'),
+            date: moment(item.release_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'),
             overview: item.overview,
             starring: item.tagline,
             idmb: item.vote_average,

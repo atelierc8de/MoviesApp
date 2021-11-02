@@ -37,8 +37,6 @@ export default class ListViewLogicExt extends Component {
 
         this.loading = false; // for prevent call api two time with one paras only
 
-        // this.loadDataError = false; // for call api again if last call undone
-
         this.pageCurrent = 0; // for know position current to prepare for load more
 
         this.pageMax = this.PAGE_MAX; // maximum pages to display in list view, also variable detect ending page to lock load more
