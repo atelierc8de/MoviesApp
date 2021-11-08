@@ -1,23 +1,35 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, StyleSheet, TextInput, Platform} from 'react-native';
+import {View, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
 import UStyle from "../../system/UStyle";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UColor from "../../system/UColor";
+import { useSpring, animated } from '@react-spring/native';
 
 export const Header = ({onChangeText, value}) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
+
+    const { height, opacity } = useSpring({
+        from: { height: 0, opacity: 0, y: 0 },
+        to: {
+            height: showSearchForm ? 40 : 0,
+            opacity: showSearchForm ? 1 : 0,
+            y: showSearchForm ? 0 : 40,
+        },
+        delay: 100,
+    });
+
     return (
         <>
             <View style={[styles.headerStyle, {marginTop: UStyle.statusBarHeight, paddingHorizontal: 20}]}>
                 <Image source={require('../../images/cinima.png')} style={{width: 100, height: 50}}/>
-                <TouchableOpacity activeOpacity={0.8} onPress={() => setShowSearchForm(!showSearchForm)}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setShowSearchForm(!showSearchForm)} style={{height:50, width:100, justifyContent:'center', alignItems: 'flex-end'}}>
                     <Ionicons name={'search'} size={24}/>
                 </TouchableOpacity>
 
             </View>
 
             {showSearchForm ?
-                <View style={{height: 40, flexDirection: 'row', alignItems: 'center', marginHorizontal:20, borderWidth:1, marginTop:8, borderRadius:4, borderColor: '#CAD3DB', backgroundColor:UColor.whiteColor}}>
+                <animated.View style={{height:height, opacity, flexDirection: 'row', alignItems: 'center', marginHorizontal:20, borderWidth:1, borderRadius:4, borderColor: '#CAD3DB', backgroundColor:UColor.whiteColor}}>
                     <TextInput
                         disableFullscreenUI
                         placeholder='Search'
@@ -28,11 +40,10 @@ export const Header = ({onChangeText, value}) => {
                         onChangeText={onChangeText}
                         autoFocus={true}
                     />
-                </View> : null}
+                </animated.View> : null}
         </>
     );
 };
-
 
 const styles = StyleSheet.create({
     headerStyle: {

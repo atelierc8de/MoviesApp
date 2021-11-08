@@ -1,4 +1,5 @@
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -13,6 +14,7 @@ import Logout from "../screens/account/Logout";
 import { mobxUser } from '../mobx/mobxUser';
 import { observer } from "mobx-react";
 import UColor from "../system/UColor";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Navigation = observer(() => {
     return (
@@ -58,6 +60,12 @@ const BottomTab = createBottomTabNavigator();
  * @constructor
  */
 function BottomTabNavigator() {
+
+    const logout = async () => {
+        mobxUser.uID = '';
+        await AsyncStorage.removeItem('user_ID');
+    };
+
     return (
         <BottomTab.Navigator initialRouteName='Home' screenOptions={{tabBarActiveTintColor: UColor.colorBottomNavigator}}>
             <BottomTab.Screen
@@ -79,12 +87,16 @@ function BottomTabNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name={'Logout'}
+                name={'Account'}
                 component={Logout}
                 options={{
-                    // headerShown: false,
                     tabBarLabel: 'Account',
-                    tabBarIcon: ({color}) => <TabBarIcon name="people" color={color}/>
+                    tabBarIcon: ({color}) => <TabBarIcon name="people" color={color}/>,
+                    headerRight: () => {
+                        return <TouchableOpacity onPress={logout} style={{width:100, height:44, alignItems:'flex-end', justifyContent:'center', paddingRight:20}}>
+                            <TabBarIcon name="power-sharp" color={UColor.favoriteColor}/>
+                        </TouchableOpacity>
+                    }
                 }}
             />
         </BottomTab.Navigator>

@@ -7,7 +7,7 @@ export const toast = (text = '') => Toast.show(text, {
     shadow: true,
     animation: true,
     hideOnPress: true,
-    delay: 0,
+    delay: 100,
     onShow: () => {},
     onShown: () => {},
     onHide: () => {},

@@ -47,7 +47,6 @@ const MoviesItem = ({title = '', image, vote, date, language, idmb, goToMoviesDe
     );
 };
 
-
 /**
  *
  * @param children
@@ -79,7 +78,7 @@ const TextTitle = styled.Text`
   color: ${UColor.textDark}; 
   font-weight: bold; 
   padding: 0 20px; 
-  margin-top: 20px;
+  margin: 10px 0 5px 0;
 `;
 
 

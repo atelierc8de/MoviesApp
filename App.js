@@ -9,11 +9,8 @@ export default function App() {
 
     const autoLogin = () => {
         mobxUser.saveUID(UUser.userId);
-    }
-    
-    UUser.initDataFromStorage(autoLogin);
-
-
+    };
+    UUser.initDataFromStorage(autoLogin).then();
 
     return (
         <RootSiblingParent>

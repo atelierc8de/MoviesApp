@@ -72,9 +72,11 @@ export default class MoviesDetail extends ListViewLogicExt {
                     original_language: data?.original_language,
                 });
 
+
             toast('Add Film Favorite Success!');
 
         } else {
+
             toast('Already add to list favorite!');
         }
     };
@@ -108,17 +110,19 @@ export default class MoviesDetail extends ListViewLogicExt {
         return (
             <View style={{flex: 1}}>
                 <ImageBackground source={{uri: `${imageUrl}${poster_path}`}} style={{flex: 1}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: UStyle.statusBarHeight, paddingHorizontal: 10}}>
-                        <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
-                                          style={{width: 44, height: 44, justifyContent: 'center', alignItems: 'center'}}>
-                            <Ionicons name={'ios-arrow-back'} size={30} color={UColor.whiteColor}/>
-                        </TouchableOpacity>
+                    <LinearGradient colors={['rgba(0,0,0,0.4)', 'transparent']}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: UStyle.statusBarHeight, paddingHorizontal: 10}}>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
+                                              style={{width: 44, height: 44, justifyContent: 'center', alignItems: 'center'}}>
+                                <Ionicons name={'ios-arrow-back'} size={30} color={UColor.whiteColor}/>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} onPress={this.addMoviesFavorite}
-                                          style={{width: 44, height: 44, justifyContent: 'center', alignItems: 'center'}}>
-                            <Ionicons name={'heart'} size={30} color={isAddFavorite ? UColor.favoriteColor : UColor.whiteColor}/>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity activeOpacity={0.8} onPress={this.addMoviesFavorite}
+                                              style={{width: 44, height: 44, justifyContent: 'center', alignItems: 'center'}}>
+                                <Ionicons name={'heart'} size={30} color={isAddFavorite ? UColor.favoriteColor : UColor.whiteColor}/>
+                            </TouchableOpacity>
+                        </View>
+                    </LinearGradient>
 
                     <TrailerButton activeOpacity={0.8} style={{top: UStyle.topBarAndStatusBarHeight+20+40+40+20}} onPress={() => navigation.navigate('Teaser', {dataTeaser: data.videos})}>
                         <View style={{

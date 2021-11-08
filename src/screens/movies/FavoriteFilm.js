@@ -9,7 +9,7 @@ import {MoviesItem, TextTitle} from "../../components/common/Element";
 import UColor from "../../system/UColor";
 import {convertStringHaveSpecialChars} from "../../system/UUtility";
 
-export default function FavoriteFilm({navigation}){
+export default function FavoriteFilm(){
 
     const [data, setData] = useState([]);
     const [textSearch, setTextSearch] = useState('');
@@ -22,7 +22,7 @@ export default function FavoriteFilm({navigation}){
        firestore.favorites()
        .collection(UUser.userId)
             .onSnapshot((snapshot) => {
-                let dataMovies = []
+                let dataMovies = [];
                 snapshot.forEach((doc) => {
                     const docData = doc?.data();
                     const obj = {
@@ -52,8 +52,8 @@ export default function FavoriteFilm({navigation}){
             <TextTitle>Favorite</TextTitle>
             <FlatList
                 style={{paddingHorizontal: 20}}
-                data={data}
-                keyExtractor={item => item.id.toString()}
+                data={dataFiltered}
+                keyExtractor={(item, index) => index.toString()}
                 ListHeaderComponent={() => <View style={{height: 30}}/>}
                 ItemSeparatorComponent={() => <View style={{height: 30}}/>}
                 ListFooterComponent={() => <View style={{height: 20}}/>}
@@ -64,7 +64,7 @@ export default function FavoriteFilm({navigation}){
 
                 renderItem={
                     ({item}) => {
-                        return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', {id: item.id})}/>
+                        return <MoviesItem {...item}/>
                     }
                 }
             />

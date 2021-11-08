@@ -4,12 +4,18 @@ class MobxUser {
 
     uID = '';
 
+    user = null;
+
     constructor() {
         makeAutoObservable(this);
     }
 
     saveUID(id) {
         this.uID = id;
+    }
+
+    saveUser(user){
+        this.user = user;
     }
 }
 

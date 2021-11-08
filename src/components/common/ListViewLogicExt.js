@@ -31,15 +31,13 @@ export default class ListViewLogicExt extends Component {
             textSearch:'', // for display in text input only
             searchCount:0,  // for display in result description
             showResultDescription:false,  // show/hide the result description
-            listFavorite: [],
-            isAddFavorite: false
         };
 
         this.isCMounted = false; // for setState is safe
 
         this.loading = false; // for prevent call api two time with one paras only
 
-        this.pageCurrent = 0; // for know position current to prepare for load more
+        this.pageCurrent = 1; // for know position current to prepare for load more
 
         this.pageMax = this.PAGE_MAX; // maximum pages to display in list view, also variable detect ending page to lock load more
 

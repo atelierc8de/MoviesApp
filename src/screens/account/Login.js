@@ -13,8 +13,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: 'nguyen111@gmail.com',
-            password: '1234hi',
+            email: Login.emailLastTime,
+            password: 'nam012',
 
             hidePassword: true,
             isLoginUserLoading: false,
@@ -53,6 +53,7 @@ export default class Login extends Component {
                     .then((userCredential) => {
                         const user = userCredential.user;
                         mobxUser.saveUID(user.uid);
+                        mobxUser.saveUser(user.email);
                     })
                 Login.emailLastTime = email;
                 toast('Login success.');
@@ -70,7 +71,6 @@ export default class Login extends Component {
      */
     measureComponentHeight = ({ nativeEvent }) => this.setState({ formHeight: nativeEvent.layout.height });
 
-
     render() {
 
         const { email, password, hidePassword, isLoginUserLoading, formHeight = 500 } = this.state;
@@ -78,10 +78,6 @@ export default class Login extends Component {
         topSpace = topSpace > 0 ? topSpace : 0;
 
         const { navigation } = this.props;
-
-        console.log('UUserIDStore', UUser.userId)
-
-
 
         return (
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{ flex: 1, height: UStyle.deviceHeight }}>
