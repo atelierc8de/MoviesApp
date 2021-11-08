@@ -7,6 +7,7 @@ import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast";
 import { mobxUser } from '../../mobx/mobxUser';
 import {TextInputForm} from "../../components/common/Element";
+import UUser from '../../system/UUser';
 
 export default class Login extends Component {
 
@@ -76,8 +77,10 @@ export default class Login extends Component {
         const { email, password, hidePassword, isLoginUserLoading, formHeight = 500 } = this.state;
         let topSpace = (UStyle.deviceHeight - formHeight) / 2;
         topSpace = topSpace > 0 ? topSpace : 0;
-
         const { navigation } = this.props;
+
+
+
 
         return (
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{ flex: 1, height: UStyle.deviceHeight }}>

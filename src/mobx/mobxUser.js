@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 class MobxUser {
 
     uID = '';
+    listMore = [];
 
     user = null;
 

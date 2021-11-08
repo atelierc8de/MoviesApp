@@ -26,6 +26,10 @@ export default class ServiceBase {
         return `${Config.urlAPI}${endPoint}`
     }
 
+    static urlSearch = (endPoint = 'NA') => {
+        return `${Config.urlAPISearch}${endPoint}`
+    }
+
     /**
      *
      * @param endpoint
@@ -39,6 +43,21 @@ export default class ServiceBase {
         if (!url) url = ServiceBase.url(endpoint);
         await axios.get(url, endpoint, requestConfig)
             .then(res => {
+                console.log('url', url)
+                cb && cb(null, res);
+                return res;
+            })
+            .catch(error => {
+                cb && cb(error);
+            })
+    }
+
+    static getSearch = async ({endpoint, cb, requestConfig = ServiceBase.getRequestConfig(), url}) => {
+
+        if (!url) url = ServiceBase.urlSearch(endpoint);
+        await axios.get(url, endpoint, requestConfig)
+            .then(res => {
+                // console.log('urlSearch', url, res?.data)
                 cb && cb(null, res);
                 return res;
             })
@@ -64,4 +83,9 @@ export default class ServiceBase {
     static getMovieDetail = ({cb, id}) => {
         ServiceBase.get({endpoint: `${id}?api_key=${Config.api_key}&append_to_response=videos,credits`, cb});
     }
+
+    static searchMovie = ({cb, key}) => {
+        ServiceBase.getSearch({endpoint: `api_key=${Config.api_key}&query=${key}`, cb});
+    }
+    
 }

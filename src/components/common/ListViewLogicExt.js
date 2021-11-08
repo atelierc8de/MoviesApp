@@ -11,7 +11,8 @@ export default class ListViewLogicExt extends Component {
      *
      * @type {number}
      */
-    PAGE_MAX = 100;
+    PAGE_MAX = 1000;
+    PAGE_MIN = 1;
 
     /**
      *
@@ -31,6 +32,10 @@ export default class ListViewLogicExt extends Component {
             textSearch:'', // for display in text input only
             searchCount:0,  // for display in result description
             showResultDescription:false,  // show/hide the result description
+            listFavorite: [],
+            isAddFavorite: false,
+            page: 1,
+            isLoading:false,
         };
 
         this.isCMounted = false; // for setState is safe
@@ -40,6 +45,8 @@ export default class ListViewLogicExt extends Component {
         this.pageCurrent = 1; // for know position current to prepare for load more
 
         this.pageMax = this.PAGE_MAX; // maximum pages to display in list view, also variable detect ending page to lock load more
+
+        this.pageMin = this.PAGE_MIN;
 
         this.getDataFunc = ()=>{}; // service get data function, to get data from api
 
@@ -54,6 +61,10 @@ export default class ListViewLogicExt extends Component {
         this.isSearch = false;
 
         this.textSearch = '';
+
+        this.listMore = [];
+
+
     }
 
     /**
