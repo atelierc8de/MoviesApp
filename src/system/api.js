@@ -43,7 +43,6 @@ export default class ServiceBase {
         if (!url) url = ServiceBase.url(endpoint);
         await axios.get(url, endpoint, requestConfig)
             .then(res => {
-                console.log('url', url)
                 cb && cb(null, res);
                 return res;
             })
@@ -57,7 +56,6 @@ export default class ServiceBase {
         if (!url) url = ServiceBase.urlSearch(endpoint);
         await axios.get(url, endpoint, requestConfig)
             .then(res => {
-                // console.log('urlSearch', url, res?.data)
                 cb && cb(null, res);
                 return res;
             })

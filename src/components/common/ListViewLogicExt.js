@@ -36,6 +36,9 @@ export default class ListViewLogicExt extends Component {
             isAddFavorite: false,
             page: 1,
             isLoading:false,
+            isAddToast: false,
+            docID:'',
+            disable: false,
         };
 
         this.isCMounted = false; // for setState is safe
@@ -63,6 +66,8 @@ export default class ListViewLogicExt extends Component {
         this.textSearch = '';
 
         this.listMore = [];
+
+        this.disable = false;
 
 
     }

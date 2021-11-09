@@ -118,9 +118,6 @@ export default class MoviesList extends ListViewLogicExt {
         return (
             <View style={{ flex: 1 }}>
                 <Header value={textSearch} onChangeText={(textSearch)=>this.onSearch(textSearch)} />
-
-                <Button title="Search" onPress={this.handleSearchMovie} />
-
                 <TextTitle>Popular</TextTitle>
                 <FlatList
                     style={{ paddingHorizontal: 20 }}
