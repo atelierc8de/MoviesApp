@@ -4,6 +4,7 @@ class MobxUser {
 
     uID = '';
     listMore = [];
+    disableAddMovie=false;
 
     user = null;
 

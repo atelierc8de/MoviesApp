@@ -59,7 +59,7 @@ export default class MoviesList extends ListViewLogicExt {
     }
 
     handleRefresh = () => {
-        this.setState({ page: 1, data: [] }, this.getDataMovie());
+        this.setState({ page: 1, data: [] }, this.getDataMovie);
     }
 
 
@@ -126,8 +126,6 @@ export default class MoviesList extends ListViewLogicExt {
                     ListHeaderComponent={() => <View style={{ height: 30 }} />}
                     ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
                     ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} /> : () => <View style={{ height: 30 }} />}
-
-                    // onEndReached={isLoading ?  ()=>{console.log('cant call load more')} : this.handleLoadMore}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={1}
                     refreshControl={

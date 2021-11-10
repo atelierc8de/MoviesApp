@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native-ui-lib';
 import { Image, ImageBackground, TouchableOpacity, ScrollView, FlatList } from "react-native";
+import { observer } from "mobx-react";
 import { toast } from "../../components/common/Toast";
 import UServiceBase from "../../system/api";
 import { imageUrl } from "./CustomizeData";
@@ -58,9 +59,9 @@ export default class MoviesDetail extends ListViewLogicExt {
     };
 
     addMoviesFavorite = () => {
-        this.disable = true;
+        mobxUser.disableAddMovie = true;
         const { data, isAddFavorite, docID } = this.state;
-        
+
         if (!isAddFavorite) {
             firestore.favorites()
                 .collection(UUser.userId)
@@ -77,8 +78,8 @@ export default class MoviesDetail extends ListViewLogicExt {
                 })
                 .then(() => {
                     toast('Add Film Favorite Success!');
-                    this.disable= false;
-                    this.setState({});
+                    mobxUser.disableAddMovie = false;
+
 
                 }).catch((error) => {
                     toast('Error add Film Favorite!');
@@ -86,15 +87,13 @@ export default class MoviesDetail extends ListViewLogicExt {
 
 
         } else {
-
             firestore.favorites()
                 .collection(UUser.userId)
                 .doc(docID)
                 .delete()
                 .then(() => {
                     toast('Remove Film Favorite Success!');
-                    this.disable= false;
-                    this.setState({});
+                    mobxUser.disableAddMovie = false;
                 }).catch((error) => {
                     toast('Error removing Film Favorite!');
                 });
@@ -136,11 +135,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                                 style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
                                 <Ionicons name={'ios-arrow-back'} size={30} color={UColor.whiteColor} />
                             </TouchableOpacity>
-
-                            <TouchableOpacity activeOpacity={0.8} disabled={this.disable} onPress={this.addMoviesFavorite}
-                                style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
-                                <Ionicons name={'heart'} size={30} color={isAddFavorite ? UColor.favoriteColor : UColor.whiteColor} />
-                            </TouchableOpacity>
+                            <AddFavorite onPress={this.addMoviesFavorite} isAddFavorite={isAddFavorite} />
                         </View>
                     </LinearGradient>
 
@@ -243,3 +238,14 @@ const CastItem = ({ profile_path: image, name, character }) => {
         </View>
     );
 };
+
+
+const AddFavorite = observer(({onPress, isAddFavorite}) => {
+
+    return (
+        <TouchableOpacity activeOpacity={0.8} disabled={mobxUser.disableAddMovie} onPress={onPress}
+            style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
+            <Ionicons name={'heart'} size={30} color={isAddFavorite ? UColor.favoriteColor : UColor.whiteColor} />
+        </TouchableOpacity>
+    );
+});
