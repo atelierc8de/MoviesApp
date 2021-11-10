@@ -32,8 +32,6 @@ export default class ListViewLogicExt extends Component {
             textSearch:'', // for display in text input only
             searchCount:0,  // for display in result description
             showResultDescription:false,  // show/hide the result description
-            listFavorite: [],
-            isAddFavorite: false,
             page: 1,
             isLoading:false,
             isAddToast: false,
