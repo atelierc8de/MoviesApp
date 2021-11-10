@@ -4,8 +4,9 @@ import {Navigation} from './src/navigation/Navigator';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import UUser from './src/system/UUser';
 import { mobxUser } from './src/mobx/mobxUser';
+import StorybookUIRoot from "./storybook";
 
-export default function App() {
+function App() {
 
     const autoLogin = () => {
         mobxUser.saveUID(UUser.userId);
@@ -19,3 +20,5 @@ export default function App() {
         </RootSiblingParent>
     );
 }
+
+module.exports = process.env.LOAD_STORYBOOK===true? StorybookUIRoot : StorybookUIRoot;
