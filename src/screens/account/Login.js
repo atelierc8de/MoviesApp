@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { View, Button } from 'react-native-ui-lib';
+import { View, TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
-import {toast} from "../../components/common/Toast";
+import {toast} from "../../components/common/Toast/Toast";
 import { mobxUser } from '../../mobx/mobxUser';
-import {TextInputForm} from "../../components/common/Element";
-import UUser from '../../system/UUser';
+import {TextInputForm} from "../../components/common/TextInputFilter";
+import Button from "../../../storybook/stories/Button";
 
 export default class Login extends Component {
 
@@ -79,9 +78,6 @@ export default class Login extends Component {
         topSpace = topSpace > 0 ? topSpace : 0;
         const { navigation } = this.props;
 
-
-
-
         return (
             <ImageBackground source={require('../../images/background.jpeg')} resizeMode="cover" style={{ flex: 1, height: UStyle.deviceHeight }}>
                 <KeyboardAwareScrollView>
@@ -122,15 +118,12 @@ export default class Login extends Component {
                             />
                         </TextInputForm>
 
-                        <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
-                                label="SIGN IN"
-                                labelStyle={{ fontWeight: '600' }}
-                                style={{ marginTop: 40, height: 50, borderRadius: 4 }}
-                                onPress={this.login}
-                                fullWidth
-                        >
-                            <ActivityIndicator animating={isLoginUserLoading} size="small" color="#FFF" style={{position: 'absolute', right: 50 / 2}}/>
-                        </Button>
+                        <Button
+                            label="SIGN IN"
+                            onSubmit={this.login}
+                            isLoading={true}
+                            animating={isLoginUserLoading}
+                        />
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Register')} style={{ padding: 5, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 4 }} >

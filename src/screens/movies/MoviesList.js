@@ -1,14 +1,15 @@
 import React from 'react';
 import { View } from 'react-native-ui-lib';
-import { FlatList, RefreshControl, ActivityIndicator, Button } from "react-native";
+import { FlatList, RefreshControl, ActivityIndicator } from "react-native";
 import { customizeDataMovies } from './CustomizeData';
-import { Header } from "../../components/common/Header";
+import { Header } from "../../components/header";
 import UServiceBase from "../../system/api";
-import { toast } from "../../components/common/Toast";
+import { toast } from "../../components/common/Toast/Toast";
 import { auth } from '../../../firebaseConfig';
 import UUser from '../../system/UUser';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
-import { MoviesItem, TextTitle } from "../../components/common/Element";
+import {TextTitle } from "../../components/common/Styled";
+import {MoviesItem} from './movies-component';
 
 export default class MoviesList extends ListViewLogicExt {
 
@@ -47,8 +48,6 @@ export default class MoviesList extends ListViewLogicExt {
 
     };
 
-
-
     handleLoadMore = () => {
         if (this.state.page <= this.pageMax) {
             this.setState({ page: this.state.page + 1, isLoading: true }, this.getDataMovie);
@@ -61,7 +60,6 @@ export default class MoviesList extends ListViewLogicExt {
     handleRefresh = () => {
         this.setState({ page: 1, data: [] }, this.getDataMovie);
     }
-
 
     onGetUserID = () => {
         auth.onAuthStateChanged(function (user) {
@@ -85,7 +83,7 @@ export default class MoviesList extends ListViewLogicExt {
                             data: result,
                             isLoading: false
                         });
-    
+
                     } else {
                         toast('error!');
                     }

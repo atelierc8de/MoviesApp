@@ -21,4 +21,4 @@ function App() {
     );
 }
 
-module.exports = process.env.LOAD_STORYBOOK===true? StorybookUIRoot : App;
+module.exports = process.env.LOAD_STORYBOOK===true? StorybookUIRoot : StorybookUIRoot;

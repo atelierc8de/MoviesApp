@@ -5,8 +5,8 @@ import UStyle from "../../system/UStyle";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "react-native-ui-lib";
 import { auth } from '../../../firebaseConfig';
-import { toast } from "../../components/common/Toast";
-import {TextInputForm} from "../../components/common/Element";
+import { toast } from "../../components/common/Toast/Toast";
+import {TextInputForm} from "../../components/common/TextInputFilter";
 
 export default class Register extends Component {
 

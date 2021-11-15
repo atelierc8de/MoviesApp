@@ -29,6 +29,7 @@
     "mobx": "^6.3.5",
     "mobx-react": "^7.2.1",
     "moment": "2.29.1",
+    "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",

@@ -4,10 +4,11 @@ import {FlatList, Text} from 'react-native';
 import {firestore} from '../../../firebaseConfig';
 import {customizeDataFavorite} from './CustomizeData';
 import UUser from '../../system/UUser';
-import {Header} from "../../components/common/Header";
-import {MoviesItem, TextTitle} from "../../components/common/Element";
+import {Header} from "../../components/header";
+import {TextTitle} from "../../components/common/Styled";
 import UColor from "../../system/UColor";
 import {convertStringHaveSpecialChars} from "../../system/UUtility";
+import {MoviesItem} from './movies-component';
 
 export default function FavoriteFilm(){
 

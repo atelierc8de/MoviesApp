@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native-ui-lib';
 import { Image, ImageBackground, TouchableOpacity, ScrollView, FlatList } from "react-native";
 import { observer } from "mobx-react";
-import { toast } from "../../components/common/Toast";
+import { toast } from "../../components/common/Toast/Toast";
 import UServiceBase from "../../system/api";
 import { imageUrl } from "./CustomizeData";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,7 +14,7 @@ import { firestore } from '../../../firebaseConfig';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
 import UColor from "../../system/UColor";
 import { mobxUser } from "../../mobx/mobxUser";
-import { TextMoviesDetail, TrailerButton } from "../../components/common/Element";
+import { TextMoviesDetail, TrailerButton } from "../../components/common/Styled";
 
 export default class MoviesDetail extends ListViewLogicExt {
 

@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
+import {View, TouchableOpacity, Image, StyleSheet, TextInput, Text} from 'react-native';
 import UStyle from "../../system/UStyle";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UColor from "../../system/UColor";
 import { useSpring, animated } from '@react-spring/native';
+import PropTypes from 'prop-types';
 
-export const Header = ({onChangeText, value}) => {
+/**
+ *
+ * @param onChangeText
+ * @param value
+ * @constructor
+ */
+export const Header = ({onChangeText, value, text}) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
 
     const { height, opacity } = useSpring({
@@ -26,6 +33,8 @@ export const Header = ({onChangeText, value}) => {
                     <Ionicons name={'search'} size={24}/>
                 </TouchableOpacity>
 
+                <Text>{text}</Text>
+
             </View>
 
             {showSearchForm ?
@@ -44,6 +53,11 @@ export const Header = ({onChangeText, value}) => {
         </>
     );
 };
+
+Header.propTypes = {
+    onChangeText: PropTypes.func,
+    value: PropTypes.string
+}
 
 const styles = StyleSheet.create({
     headerStyle: {

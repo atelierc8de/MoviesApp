@@ -2,6 +2,7 @@
   "expo": {
     "name": "MoviesApp",
     "slug": "MoviesApp",
+    "owner": "usnews20",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
