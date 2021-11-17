@@ -1,7 +1,8 @@
 import React from 'react';
 import {ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-ui-lib';
-import {color, number, text, boolean} from "@storybook/addon-knobs";
+import {color, text, boolean} from "@storybook/addon-knobs";
+import PropTypes from "prop-types";
 
 /**
  *
@@ -22,4 +23,9 @@ export const ButtonForm = ({label='SUBMIT', onSubmit=()=>{}}) => {
         <ActivityIndicator animating={boolean('Loading', false)} size="small" color="#FFF" style={{position: 'absolute', right: 50 / 2}}/>
       </Button>
   );
+};
+
+Button.propTypes = {
+    label: PropTypes.string,
+    onSubmit: PropTypes.func,
 };

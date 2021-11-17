@@ -73,28 +73,7 @@ export default class ListViewLogicExt extends Component {
     /**
      * DidMount do after constructor
      */
-    componentDidMount() {
 
-        this.isCMounted = true; // setState safe now
-
-        if (this.allowCacheData && UData.cache[this.alias]) { // get data from dataSource
-
-            this.pageCurrent = UData.cache[this.alias].pageCurrent;
-            this.pageMax = UData.cache[this.alias].pageMax;
-            this.setState({data: UData.cache[this.alias].data});
-
-        }
-        else if (!this.isSearch)
-            this.loadFirstPage();
-
-    }
-
-    /**
-     *
-     */
-    componentWillUnmount() {
-        this.isCMounted = false; // now setState is unsafe
-    }
 
     /**
      *

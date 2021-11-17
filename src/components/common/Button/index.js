@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  * @param isLoading
  * @constructor
  */
-export const Button = ({label='', animating, onSubmit=()=>{}, isLoading=false}) => {
+export const CButton = ({label='', animating, onSubmit=()=>{}, isLoading=false}) => {
     return(
         <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
                 label={label}
@@ -24,7 +24,7 @@ export const Button = ({label='', animating, onSubmit=()=>{}, isLoading=false}) 
         </Button>
     );
 };
-Button.propTypes = {
+CButton.propTypes = {
     label: PropTypes.string,
     animating: PropTypes.object,
     onSubmit: PropTypes.func,

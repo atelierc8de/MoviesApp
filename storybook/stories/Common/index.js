@@ -21,10 +21,10 @@ import React from "react";
  * @returns {JSX.Element}
  * @constructor
  */
-export const TextInputForm = ({iconName = '', iconColor='', placeholder='', textContentType, keyboardType, returnKeyType, value, secureTextEntry, onChangeText=()=>{}, onSubmitEditing=()=>{}, top }) => {
+export const TextInputForm = ({iconName = '', height, iconColor='', placeholder='', textContentType, keyboardType, returnKeyType, value, secureTextEntry, onChangeText=()=>{}, onSubmitEditing=()=>{}, top }) => {
     return (
         <View style={{
-            height: number('height', 50),
+            height: height,
             flexDirection: 'row',
             alignItems: 'center',
             marginTop: top ? 20 : 0,
@@ -35,7 +35,7 @@ export const TextInputForm = ({iconName = '', iconColor='', placeholder='', text
             borderWidth:1,
             marginHorizontal:number('marginHorizontal', 20),
         }}>
-            <Ionicons name={text('iconName', iconName||'home')} size={number('size', 24)} color={color('iconColor', iconColor)} style={{ marginRight: 5 }} />
+            <Ionicons name={text('iconName', iconName||'home')} size={number('size', 24)} color={iconColor} style={{ marginRight: 5 }} />
             <TextInput
                 style={{ flex: 1, fontSize: 16 }}
                 placeholder={text('placeholder', placeholder||'Enter...')}

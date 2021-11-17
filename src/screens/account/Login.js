@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
 import {toast} from "../../components/common/Toast/Toast";
 import { mobxUser } from '../../mobx/mobxUser';
 import {TextInputForm} from "../../components/common/TextInputFilter";
-import Button from "../../../storybook/stories/Button";
+import {CButton} from "../../components/common/Button";
 
 export default class Login extends Component {
 
@@ -14,7 +14,7 @@ export default class Login extends Component {
         super(props);
         this.state = {
             email: Login.emailLastTime,
-            password: 'nam012',
+            password: '',
 
             hidePassword: true,
             isLoginUserLoading: false,
@@ -118,7 +118,7 @@ export default class Login extends Component {
                             />
                         </TextInputForm>
 
-                        <Button
+                        <CButton
                             label="SIGN IN"
                             onSubmit={this.login}
                             isLoading={true}
