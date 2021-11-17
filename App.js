@@ -10,6 +10,7 @@ function App() {
 
     const autoLogin = () => {
         mobxUser.saveUID(UUser.userId);
+        mobxUser.saveUser(UUser.email);
     };
     UUser.initDataFromStorage(autoLogin).then();
 

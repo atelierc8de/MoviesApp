@@ -16,7 +16,7 @@ export default function Logout(){
                     <Text style={{fontSize:16, color:UColor.textDark, fontWeight:'500', marginLeft:10}}>{mobxUser.user}</Text>
                 </View>
                 <TouchableOpacity activeOpacity={0.8} onPress={()=>{}} style={{height:44, width:44, justifyContent:'center', alignItems:'center'}}>
-                    <Ionicons name={'md-create'} size={24} />
+                    <Ionicons name={'md-create'} size={24} color={'red'} />
                 </TouchableOpacity>
             </View>
 

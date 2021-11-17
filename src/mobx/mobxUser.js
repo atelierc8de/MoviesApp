@@ -1,10 +1,10 @@
-import { makeAutoObservable } from "mobx";
+import { runInAction, makeAutoObservable } from "mobx";
 
 class MobxUser {
 
     uID = '';
     listMore = [];
-    disableAddMovie=false;
+    disableAddMovie = false;
 
     user = null;
 
@@ -14,10 +14,17 @@ class MobxUser {
 
     saveUID(id) {
         this.uID = id;
+
+        runInAction(() => {
+            this.uID = id;
+        })
     }
 
-    saveUser(user){
+    saveUser(user) {
         this.user = user;
+        runInAction(() => {
+            this.user = user;
+        })
     }
 }
 

@@ -7,6 +7,7 @@ import {toast} from "../../components/common/Toast/Toast";
 import { mobxUser } from '../../mobx/mobxUser';
 import {TextInputForm} from "../../components/common/TextInputFilter";
 import {CButton} from "../../components/common/Button";
+import UUser from '../../system/UUser';
 
 export default class Login extends Component {
 
@@ -54,6 +55,9 @@ export default class Login extends Component {
                         const user = userCredential.user;
                         mobxUser.saveUID(user.uid);
                         mobxUser.saveUser(user.email);
+                        UUser.email = user.email;
+                        UUser.userId = user.uid;
+                        
                     })
                 Login.emailLastTime = email;
                 toast('Login success.');
@@ -85,7 +89,7 @@ export default class Login extends Component {
 
                     <View style={styles.container} onLayout={this.measureComponentHeight}>
 
-                        <TextInputForm iconName={'people-sharp'}>
+                        <TextInputForm iconName={'people-sharp'} iconColor={'gray'}>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 placeholder='Enter...'
@@ -101,7 +105,7 @@ export default class Login extends Component {
                             />
                         </TextInputForm>
 
-                        <TextInputForm iconName={'key-sharp'} top>
+                        <TextInputForm iconName={'key-sharp'} iconColor={'gray'} top>
                             <TextInput
                                 style={{ flex: 1, fontSize: 16 }}
                                 ref={(input) => {

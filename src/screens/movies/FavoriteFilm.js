@@ -1,27 +1,31 @@
-import React, {useState, useEffect} from 'react';
-import {View} from 'react-native-ui-lib';
-import {FlatList, Text} from 'react-native';
-import {firestore} from '../../../firebaseConfig';
-import {customizeDataFavorite} from './CustomizeData';
+import React, { useState, useEffect } from 'react';
+import { View } from 'react-native-ui-lib';
+import { FlatList, Text, ActivityIndicator } from 'react-native';
+import { firestore } from '../../../firebaseConfig';
+import { customizeDataFavorite } from './CustomizeData';
 import UUser from '../../system/UUser';
-import {Header} from "../../components/header";
-import {TextTitle} from "../../components/common/Styled";
+import { Header } from "../../components/header";
+import { TextTitle } from "../../components/common/Styled";
 import UColor from "../../system/UColor";
-import {convertStringHaveSpecialChars} from "../../system/UUtility";
-import {MoviesItem} from './movies-component';
+import { convertStringHaveSpecialChars } from "../../system/UUtility";
+import { MoviesItem } from './movies-component';
+import { useNavigation } from '@react-navigation/native';
 
-export default function FavoriteFilm(){
+export default function FavoriteFilm() {
 
     const [data, setData] = useState([]);
     const [textSearch, setTextSearch] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
     useEffect(() => {
+        setLoading(true);
         _getDataFromFirebase();
     }, []);
 
     const _getDataFromFirebase = async () => {
-       firestore.favorites()
-       .collection(UUser.userId)
+        firestore.favorites()
+            .collection(UUser.userId)
             .onSnapshot((snapshot) => {
                 let dataMovies = [];
                 snapshot.forEach((doc) => {
@@ -33,6 +37,7 @@ export default function FavoriteFilm(){
                     dataMovies.push(obj);
                 })
                 setData(customizeDataFavorite(dataMovies));
+                setLoading(false);
             });
     }
 
@@ -46,29 +51,38 @@ export default function FavoriteFilm(){
         );
     });
 
+
     return (
-        <View style={{flex:1}}>
-            <Header value={textSearch} onChangeText={(textSearch) => setTextSearch(textSearch)}/>
+        <View style={{ flex: 1 }}>
+            <Header value={textSearch} onChangeText={(textSearch) => setTextSearch(textSearch)} />
 
             <TextTitle>Favorite</TextTitle>
-            <FlatList
-                style={{paddingHorizontal: 20}}
-                data={dataFiltered}
-                keyExtractor={(item, index) => index.toString()}
-                ListHeaderComponent={() => <View style={{height: 30}}/>}
-                ItemSeparatorComponent={() => <View style={{height: 30}}/>}
-                ListFooterComponent={() => <View style={{height: 20}}/>}
+            {
+                loading ? (
+                    <ActivityIndicator size="large" animating={true} color={'red'} />
+                ) : (
+                    <FlatList
+                        style={{ paddingHorizontal: 20 }}
+                        data={dataFiltered}
+                        keyExtractor={(item, index) => index.toString()}
+                        ListHeaderComponent={() => <View style={{ height: 30 }} />}
+                        ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
+                        ListFooterComponent={() => <View style={{ height: 20 }} />}
 
-                ListEmptyComponent={() => (data.length===0?<View style={{justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15}}>
-                    <Text style={{fontSize:16, color:UColor.textDark, textAlign:'center'}}>Favorite film empty!</Text>
-                </View>:null)}
+                        ListEmptyComponent={() => (data.length === 0 ? <View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 }}>
+                            <Text style={{ fontSize: 16, color: UColor.textDark, textAlign: 'center' }}>Favorite film empty!</Text>
+                        </View> : null)}
 
-                renderItem={
-                    ({item}) => {
-                        return <MoviesItem {...item}/>
-                    }
-                }
-            />
+                        renderItem={
+                            ({ item }) => {
+                                return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', { id: item.id })} />
+                            }
+                        }
+                    />
+                )
+            }
+
+
         </View>
     );
 }
