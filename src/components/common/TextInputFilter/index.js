@@ -24,7 +24,7 @@ export const TextInputForm = ({children, iconName = '', iconColor='', top }) => 
             paddingHorizontal: 15,
             opacity: 0.7,
         }}>
-            <Ionicons name={text('iconName', iconName)} size={number('size', 24)} color={color('iconColor', iconColor)} style={{ marginRight: 5 }} />
+            <Ionicons name={iconName} size={24} color={iconColor} style={{ marginRight: 5 }} />
             {children}
         </View>
     );

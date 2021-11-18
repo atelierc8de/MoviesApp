@@ -123,7 +123,7 @@ export default class MoviesList extends ListViewLogicExt {
                     keyExtractor={(item, index) => item.id.toString()}
                     ListHeaderComponent={() => <View style={{ height: 30 }} />}
                     ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} /> : () => <View style={{ height: 30 }} />}
+                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{paddingVertical:10}} /> : () => <View style={{ height: 30 }} />}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={1}
                     refreshControl={

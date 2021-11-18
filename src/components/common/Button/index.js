@@ -26,7 +26,7 @@ export const CButton = ({label='', animating, onSubmit=()=>{}, isLoading=false})
 };
 CButton.propTypes = {
     label: PropTypes.string,
-    animating: PropTypes.object,
+    animating: PropTypes.bool,
     onSubmit: PropTypes.func,
     isLoading: PropTypes.bool,
 };

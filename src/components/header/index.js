@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
  * @param value
  * @constructor
  */
-export const Header = ({onChangeText, value, text}) => {
+export const Header = ({onChangeText, value}) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
 
     const { height, opacity } = useSpring({
@@ -32,8 +32,6 @@ export const Header = ({onChangeText, value, text}) => {
                 <TouchableOpacity activeOpacity={0.8} onPress={() => setShowSearchForm(!showSearchForm)} style={{height:50, width:100, justifyContent:'center', alignItems: 'flex-end'}}>
                     <Ionicons name={'search'} size={24}/>
                 </TouchableOpacity>
-
-                <Text>{text}</Text>
 
             </View>
 

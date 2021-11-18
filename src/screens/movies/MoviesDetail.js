@@ -171,13 +171,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                             <TextMoviesDetail UColor={UColor.whiteColor} style={{ paddingHorizontal: 3 }}>&#8226;</TextMoviesDetail>
                             <TextMoviesDetail UColor={UColor.whiteColor}>{Math.floor(runtime / 60)}h {runtime % 60}min</TextMoviesDetail>
                         </View>
-                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <TextMoviesDetail UColor={UColor.yellow} fontWeight={500} style={{ marginRight: 3 }}>{vote}</TextMoviesDetail>
-                            {[0, 1, 2, 3, 4].map((item, i) => (
-                                <Ionicons key={item.toString()} name={'star'} size={16} color={i === 4 ? 'gray' : 'yellow'}
-                                    style={{ opacity: 0.8, marginLeft: 2 }} />
-                            ))}
-                        </View>
+                        <TextMoviesDetail UColor={UColor.yellow} fontWeight={500} style={{ marginTop: 5 }}>{vote} IDMB</TextMoviesDetail>
                     </LinearGradient>
                     <View style={{ flex: 1, marginTop: 8, paddingHorizontal: 15 }}>
                         <ScrollView>
@@ -239,9 +233,11 @@ const CastItem = ({ profile_path: image, name, character }) => {
     );
 };
 
-
+/**
+ *
+ * @type {function({onPress: *, isAddFavorite: *}): *}
+ */
 const AddFavorite = observer(({onPress, isAddFavorite}) => {
-
     return (
         <TouchableOpacity activeOpacity={0.8} disabled={mobxUser.disableAddMovie} onPress={onPress}
             style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>

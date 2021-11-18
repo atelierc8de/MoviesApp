@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon2.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.usnews20.MoviesApp"
     },
     "web": {
       "favicon": "./assets/icon2.png"
