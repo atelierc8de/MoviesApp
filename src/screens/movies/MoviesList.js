@@ -113,6 +113,7 @@ export default class MoviesList extends ListViewLogicExt {
         const { data, textSearch, isLoading } = this.state;
         const { navigation } = this.props;
 
+
         return (
             <View style={{ flex: 1 }}>
                 <Header value={textSearch} onChangeText={(textSearch)=>this.onSearch(textSearch)} />

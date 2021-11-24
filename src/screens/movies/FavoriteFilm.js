@@ -58,28 +58,24 @@ export default function FavoriteFilm() {
 
             <TextTitle>Favorite</TextTitle>
             {
-                loading ? (
-                    <ActivityIndicator size="large" animating={true} color={'red'} />
-                ) : (
-                    <FlatList
-                        style={{ paddingHorizontal: 20 }}
-                        data={dataFiltered}
-                        keyExtractor={(item, index) => index.toString()}
-                        ListHeaderComponent={() => <View style={{ height: 30 }} />}
-                        ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-                        ListFooterComponent={() => <View style={{ height: 20 }} />}
+                <FlatList
+                    style={{ paddingHorizontal: 20 }}
+                    data={dataFiltered}
+                    keyExtractor={(item, index) => index.toString()}
+                    ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
+                    ListFooterComponent={() => <View style={{ height: 20 }} />}
+                    ListHeaderComponent={loading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{ paddingVertical: 10 }} /> : () => <View style={{ height: 30 }} />}
 
-                        ListEmptyComponent={() => (data.length === 0 ? <View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 }}>
-                            <Text style={{ fontSize: 16, color: UColor.textDark, textAlign: 'center' }}>Favorite film empty!</Text>
-                        </View> : null)}
+                    ListEmptyComponent={() => (data.length === 0 ? <View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 }}>
+                        <Text style={{ fontSize: 16, color: UColor.textDark, textAlign: 'center' }}>Favorite film empty!</Text>
+                    </View> : null)}
 
-                        renderItem={
-                            ({ item }) => {
-                                return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', { id: item.id })} />
-                            }
+                    renderItem={
+                        ({ item }) => {
+                            return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', { id: item.id })} />
                         }
-                    />
-                )
+                    }
+                />
             }
 
 

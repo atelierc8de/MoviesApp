@@ -5,7 +5,6 @@ class MobxUser {
     uID = '';
     listMore = [];
     disableAddMovie = false;
-
     user = null;
 
     constructor() {
@@ -25,6 +24,17 @@ class MobxUser {
         runInAction(() => {
             this.user = user;
         })
+    }
+
+    logOut() {
+        this.uID = '';
+    }
+    handleDisable() {
+        this.disableAddMovie = true;
+    }
+    
+    handleEnable() {
+        this.disableAddMovie = false;
     }
 }
 

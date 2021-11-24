@@ -62,7 +62,7 @@ const BottomTab = createBottomTabNavigator();
 function BottomTabNavigator() {
 
     const logout = async () => {
-        mobxUser.uID = '';
+        mobxUser.logOut();
         await AsyncStorage.removeItem('user_ID');
     };
 

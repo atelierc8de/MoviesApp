@@ -59,7 +59,7 @@ export default class MoviesDetail extends ListViewLogicExt {
     };
 
     addMoviesFavorite = () => {
-        mobxUser.disableAddMovie = true;
+        mobxUser.handleDisable();
         const { data, isAddFavorite, docID } = this.state;
 
         if (!isAddFavorite) {
@@ -78,9 +78,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                 })
                 .then(() => {
                     toast('Add Film Favorite Success!');
-                    mobxUser.disableAddMovie = false;
-
-
+                    mobxUser.handleEnable();
                 }).catch((error) => {
                     toast('Error add Film Favorite!');
                 });
@@ -93,7 +91,7 @@ export default class MoviesDetail extends ListViewLogicExt {
                 .delete()
                 .then(() => {
                     toast('Remove Film Favorite Success!');
-                    mobxUser.disableAddMovie = false;
+                    mobxUser.handleEnable();
                 }).catch((error) => {
                     toast('Error removing Film Favorite!');
                 });
@@ -237,7 +235,7 @@ const CastItem = ({ profile_path: image, name, character }) => {
  *
  * @type {function({onPress: *, isAddFavorite: *}): *}
  */
-const AddFavorite = observer(({onPress, isAddFavorite}) => {
+const AddFavorite = observer(({ onPress, isAddFavorite }) => {
     return (
         <TouchableOpacity activeOpacity={0.8} disabled={mobxUser.disableAddMovie} onPress={onPress}
             style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center' }}>
