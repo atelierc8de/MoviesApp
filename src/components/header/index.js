@@ -37,6 +37,7 @@ export const Header = ({ onChangeText, value }) => {
 
             {showSearchForm &&
                 (
+                    
                     <animated.View style={{ height: height, opacity, flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, borderWidth: 1, borderRadius: 4, borderColor: '#CAD3DB', backgroundColor: UColor.whiteColor }}>
                         <TextInput
                             disableFullscreenUI
@@ -46,6 +47,7 @@ export const Header = ({ onChangeText, value }) => {
                             style={{ flex: 1, height: 40, fontSize: 16, paddingHorizontal: 10 }}
                             clearButtonMode='always'
                             onChangeText={onChangeText}
+                            // autoFocus={true}
                         />
                     </animated.View>
                 )

@@ -11,6 +11,8 @@ export default class UUser {
         cb();
     };
 
+    static tokenPushNotification = '';
+
     /**
      *
      * @param key

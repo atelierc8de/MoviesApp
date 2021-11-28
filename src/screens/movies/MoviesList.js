@@ -8,8 +8,9 @@ import { toast } from "../../components/common/Toast/Toast";
 import { auth } from '../../../firebaseConfig';
 import UUser from '../../system/UUser';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
-import {TextTitle } from "../../components/common/Styled";
-import {MoviesItem} from './movies-component';
+import { TextTitle } from "../../components/common/Styled";
+import { MoviesItem } from './movies-component';
+
 
 export default class MoviesList extends ListViewLogicExt {
 
@@ -71,9 +72,9 @@ export default class MoviesList extends ListViewLogicExt {
         });
     };
 
-    onSearch = (textSearch) =>{
-        this.setState({textSearch});
-        if(textSearch.length > 0){
+    onSearch = (textSearch) => {
+        this.setState({ textSearch });
+        if (textSearch.length > 0) {
             UServiceBase.searchMovie({
                 key: textSearch,
                 cb: (err, res) => {
@@ -89,7 +90,7 @@ export default class MoviesList extends ListViewLogicExt {
                     }
                 }
             })
-        }else{
+        } else {
             UServiceBase.getMovieList({
                 page: this.state.page,
                 cb: (err, res) => {
@@ -108,15 +109,16 @@ export default class MoviesList extends ListViewLogicExt {
 
     }
 
+
+
     render() {
 
         const { data, textSearch, isLoading } = this.state;
         const { navigation } = this.props;
 
-
         return (
             <View style={{ flex: 1 }}>
-                <Header value={textSearch} onChangeText={(textSearch)=>this.onSearch(textSearch)} />
+                <Header value={textSearch} onChangeText={(textSearch) => this.onSearch(textSearch)} />
                 <TextTitle>Popular</TextTitle>
                 <FlatList
                     style={{ paddingHorizontal: 20 }}
@@ -124,9 +126,10 @@ export default class MoviesList extends ListViewLogicExt {
                     keyExtractor={(item, index) => item.id.toString()}
                     ListHeaderComponent={() => <View style={{ height: 30 }} />}
                     ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{paddingVertical:10}} /> : () => <View style={{ height: 30 }} />}
+                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{ paddingVertical: 10 }} /> : () => <View style={{ height: 30 }} />}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={1}
+                    extraData={data}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
