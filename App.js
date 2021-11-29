@@ -4,7 +4,7 @@ import {Navigation} from './src/navigation/Navigator';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import UUser from './src/system/UUser';
 import { mobxUser } from './src/mobx/mobxUser';
-import StorybookUIRoot from "./storybook";
+// import StorybookUIRoot from "./storybook";
 
 function App() {
 
@@ -22,4 +22,4 @@ function App() {
     );
 }
 
-module.exports = process.env.LOAD_STORYBOOK===true? StorybookUIRoot : StorybookUIRoot;
+module.exports = App;

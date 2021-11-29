@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
  * @param top
  * @constructor
  */
-export const TextInputForm = ({children, iconName = '', iconColor='', height, borderRadius, backgroundColor, style, top }) => {
+export const TextInputForm = ({children, iconName = '', iconColor='', height=50, borderRadius=4, backgroundColor='#FFF', style, top }) => {
     return (
         <View style={{
             height: height,
