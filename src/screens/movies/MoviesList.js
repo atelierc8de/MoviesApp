@@ -126,6 +126,7 @@ export default class MoviesList extends ListViewLogicExt {
                     ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{paddingVertical:10}} /> : () => <View style={{ height: 30 }} />}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={1}
+                    extraData={data}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
