@@ -1,7 +1,6 @@
 import {View} from "react-native-ui-lib";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import {number, text, color} from "@storybook/addon-knobs";
 import PropTypes from 'prop-types';
 
 /**
@@ -9,20 +8,25 @@ import PropTypes from 'prop-types';
  * @param children
  * @param iconName
  * @param iconColor
+ * @param height
+ * @param borderRadius
+ * @param backgroundColor
+ * @param style
  * @param top
  * @constructor
  */
-export const TextInputForm = ({children, iconName = '', iconColor='', top }) => {
+export const TextInputForm = ({children, iconName = '', iconColor='', height, borderRadius, backgroundColor, style, top }) => {
     return (
         <View style={{
-            height: number('height', 50),
+            height: height,
             flexDirection: 'row',
             alignItems: 'center',
             marginTop: top ? 20 : 0,
-            borderRadius: number('borderRadius', 4),
-            backgroundColor: color('backgroundColor', '#FFF'),
+            borderRadius: borderRadius,
+            backgroundColor: backgroundColor,
             paddingHorizontal: 15,
             opacity: 0.7,
+            ...style
         }}>
             <Ionicons name={iconName} size={24} color={iconColor} style={{ marginRight: 5 }} />
             {children}
@@ -31,8 +35,14 @@ export const TextInputForm = ({children, iconName = '', iconColor='', top }) => 
 };
 TextInputForm.propTypes = {
     children: PropTypes.object,
+
     iconName: PropTypes.string,
     iconColor: PropTypes.string,
+    backgroundColor: PropTypes.string,
+
+    height: PropTypes.number,
+    borderRadius: PropTypes.number,
 
     top: PropTypes.bool,
+    style: PropTypes.object,
 }

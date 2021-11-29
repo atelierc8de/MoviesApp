@@ -27,7 +27,7 @@ export const Header = ({ onChangeText, value }) => {
 
     return (
         <>
-            <View style={[styles.headerStyle, { marginTop: UStyle.statusBarHeight, paddingHorizontal: 20 }]}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: UStyle.statusBarHeight, paddingHorizontal: 20 }}>
                 <Image source={require('../../images/cinima.png')} style={{ width: 100, height: 50 }} />
                 <TouchableOpacity activeOpacity={0.8} onPress={() => setShowSearchForm(!showSearchForm)} style={{ height: 50, width: 100, justifyContent: 'center', alignItems: 'flex-end' }}>
                     <Ionicons name={'search'} size={24} />
@@ -58,11 +58,3 @@ Header.propTypes = {
     onChangeText: PropTypes.func,
     value: PropTypes.string
 }
-
-const styles = StyleSheet.create({
-    headerStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    }
-});

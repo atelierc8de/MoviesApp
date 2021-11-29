@@ -2,14 +2,14 @@ import React from 'react';
 import { View } from 'react-native-ui-lib';
 import { FlatList, RefreshControl, ActivityIndicator } from "react-native";
 import { customizeDataMovies } from './CustomizeData';
-import { Header } from "../../components/header";
+import { Header } from "../../components/Header";
 import UServiceBase from "../../system/api";
-import { toast } from "../../components/common/Toast/Toast";
+import { toast } from "../../components/Toast/Toast";
 import { auth } from '../../../firebaseConfig';
 import UUser from '../../system/UUser';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
-import {TextTitle } from "../../components/common/Styled";
-import {MoviesItem} from './movies-component';
+import {TextTitle } from "../../components/Styled";
+import {MoviesItem} from '../../components/MoviesItem';
 
 export default class MoviesList extends ListViewLogicExt {
 
@@ -112,7 +112,6 @@ export default class MoviesList extends ListViewLogicExt {
 
         const { data, textSearch, isLoading } = this.state;
         const { navigation } = this.props;
-
 
         return (
             <View style={{ flex: 1 }}>

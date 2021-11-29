@@ -4,11 +4,11 @@ import { FlatList, Text, ActivityIndicator } from 'react-native';
 import { firestore } from '../../../firebaseConfig';
 import { customizeDataFavorite } from './CustomizeData';
 import UUser from '../../system/UUser';
-import { Header } from "../../components/header";
-import { TextTitle } from "../../components/common/Styled";
+import { Header } from "../../components/Header";
+import { TextTitle } from "../../components/Styled";
 import UColor from "../../system/UColor";
 import { convertStringHaveSpecialChars } from "../../system/UUtility";
-import { MoviesItem } from './movies-component';
+import { MoviesItem } from '../../components/MoviesItem';
 import { useNavigation } from '@react-navigation/native';
 
 export default function FavoriteFilm() {
@@ -51,34 +51,31 @@ export default function FavoriteFilm() {
         );
     });
 
-
     return (
         <View style={{ flex: 1 }}>
             <Header value={textSearch} onChangeText={(textSearch) => setTextSearch(textSearch)} />
 
             <TextTitle>Favorite</TextTitle>
-            {
-                <FlatList
-                    style={{ paddingHorizontal: 20 }}
-                    data={dataFiltered}
-                    keyExtractor={(item, index) => index.toString()}
-                    ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
-                    ListHeaderComponent={loading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{ paddingVertical: 10 }} /> : () => <View style={{ height: 30 }} />}
+            <FlatList
+                style={{paddingHorizontal: 20}}
+                data={dataFiltered}
+                keyExtractor={(item, index) => index.toString()}
+                ItemSeparatorComponent={() => <View style={{height: 30}}/>}
+                ListFooterComponent={() => <View style={{height: 20}}/>}
+                ListHeaderComponent={loading ? () => <ActivityIndicator size="large" animating={true} color={'red'}
+                                                                        style={{paddingVertical: 10}}/> : () => <View style={{height: 30}}/>}
 
-                    ListEmptyComponent={() => (data.length === 0 ? <View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 }}>
-                        <Text style={{ fontSize: 16, color: UColor.textDark, textAlign: 'center' }}>Favorite film empty!</Text>
+                ListEmptyComponent={() => (data.length === 0 ?
+                    <View style={{justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15}}>
+                        <Text style={{fontSize: 16, color: UColor.textDark, textAlign: 'center'}}>Favorite film empty!</Text>
                     </View> : null)}
 
-                    renderItem={
-                        ({ item }) => {
-                            return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', { id: item.id })} />
-                        }
+                renderItem={
+                    ({item}) => {
+                        return <MoviesItem {...item} goToMoviesDetail={() => navigation.navigate('MoviesDetail', {id: item.id})}/>
                     }
-                />
-            }
-
-
+                }
+            />
         </View>
     );
 }

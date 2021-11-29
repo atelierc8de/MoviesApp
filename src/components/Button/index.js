@@ -5,15 +5,16 @@ import PropTypes from 'prop-types';
 
 /**
  *
+ * @param backgroundColor
  * @param label
  * @param animating
  * @param onSubmit
  * @param isLoading
  * @constructor
  */
-export const CButton = ({label='', animating, onSubmit=()=>{}, isLoading=false}) => {
+export const CButton = ({backgroundColor="rgba(48, 182, 80, 0.8)", label='', animating, onSubmit=()=>{}, isLoading=false}) => {
     return(
-        <Button backgroundColor={"rgba(48, 182, 80, 0.8)"}
+        <Button backgroundColor={backgroundColor}
                 label={label}
                 labelStyle={{ fontWeight: '600' }}
                 style={{ marginTop: 40, height: 50, borderRadius: 4 }}
@@ -25,7 +26,10 @@ export const CButton = ({label='', animating, onSubmit=()=>{}, isLoading=false})
     );
 };
 CButton.propTypes = {
+    backgroundColor: PropTypes.string,
+
     label: PropTypes.string,
+
     animating: PropTypes.bool,
     onSubmit: PropTypes.func,
     isLoading: PropTypes.bool,

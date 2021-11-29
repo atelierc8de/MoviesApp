@@ -1,8 +1,8 @@
-import {Image, TouchableOpacity} from "react-native";
-import UStyle from "../../../system/UStyle";
-import {Text, View} from "react-native-ui-lib";
 import React from "react";
-
+import {Image, TouchableOpacity} from "react-native";
+import UStyle from "../../system/UStyle";
+import {Text, View} from "react-native-ui-lib";
+import PropTypes from 'prop-types';
 
 /**
  *
@@ -43,4 +43,16 @@ export const MoviesItem = ({title = '', image, vote, date, language, idmb, goToM
             </View>
         </TouchableOpacity>
     );
+};
+
+MoviesItem.propTypes = {
+    title: PropTypes.string,
+    image: PropTypes.string,
+    date: PropTypes.string,
+    language: PropTypes.string,
+
+    vote: PropTypes.number,
+    idmb: PropTypes.number,
+
+    goToMoviesDetail: PropTypes.func
 };
