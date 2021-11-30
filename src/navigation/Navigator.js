@@ -56,7 +56,7 @@ export const Navigation = observer(() => {
 
     return (
         <NavigationContainer>
-            {!mobxUser.uID ? <UserNavigator /> : <MoviesNavigator />}
+            <MoviesNavigator />
         </NavigationContainer>
     );
 });
@@ -76,33 +76,28 @@ function MoviesNavigator() {
             <Stack.Group>
                 <Stack.Screen name={'Teaser'} component={Teaser} options={{ headerShown: false, presentation: 'transparentModal' }} />
             </Stack.Group>
+
+            <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name={'Register'} component={Register} options={{ headerShown: false }} />
+            <Stack.Screen name={'Logout'} component={Logout} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
 
-/**
- *
- * @constructor
- */
-function UserNavigator() {
-    return (
-        <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
-            <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name={'Register'} component={Register} options={{ headerShown: false }} />
-        </Stack.Navigator>
-    );
-}
 
 const BottomTab = createBottomTabNavigator();
 /**
  *
  * @constructor
  */
-function BottomTabNavigator() {
+const BottomTabNavigator = observer((navigation) => {
 
     const logout = async () => {
+
+        // navigation.navigation.navigate('Movies');
         mobxUser.logOut();
         await AsyncStorage.removeItem('user_ID');
+
     };
 
     return (
@@ -118,29 +113,35 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name={'MoviesFavorite'}
-                component={FavoriteFilm}
+                component={mobxUser.uID ? FavoriteFilm : Login}
                 options={{
                     headerShown: false,
                     tabBarLabel: 'Favorite Film',
                     tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />
                 }}
             />
-            <BottomTab.Screen
-                name={'Account'}
-                component={Logout}
-                options={{
-                    tabBarLabel: 'Account',
-                    tabBarIcon: ({ color }) => <TabBarIcon name="people" color={color} />,
-                    headerRight: () => {
-                        return <TouchableOpacity onPress={logout} style={{ width: 100, height: 44, alignItems: 'flex-end', justifyContent: 'center', paddingRight: 20 }}>
-                            <TabBarIcon name="power-sharp" color={UColor.favoriteColor} />
-                        </TouchableOpacity>
-                    }
-                }}
-            />
+            {mobxUser.uID ? (
+                <BottomTab.Screen
+                    name={'Account'}
+                    component={Logout}
+                    options={{
+                        tabBarLabel: 'Account',
+                        tabBarIcon: ({ color }) => <TabBarIcon name="people" color={color} />,
+                        headerRight: () => {
+                            return <TouchableOpacity onPress={logout} style={{ width: 100, height: 44, alignItems: 'flex-end', justifyContent: 'center', paddingRight: 20 }}>
+                                <TabBarIcon name="power-sharp" color={UColor.favoriteColor} />
+                            </TouchableOpacity>
+                        }
+                    }}
+                />
+            ) : (
+                null
+            )
+            }
+
         </BottomTab.Navigator>
     );
-}
+})
 
 /**
  *

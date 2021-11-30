@@ -3,11 +3,11 @@ import { View, TextInput, TouchableOpacity, ImageBackground, Text, StyleSheet } 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UStyle from "../../system/UStyle";
 import { auth } from '../../../firebaseConfig';
-import {toast} from "../../components/Toast/Toast";
 import { mobxUser } from '../../mobx/mobxUser';
-import {TextInputForm} from "../../components/TextInputFilter";
-import {CButton} from "../../components/Button";
 import UUser from '../../system/UUser';
+import { toast } from '../../components/Toast/Toast';
+import { TextInputForm } from '../../components/TextInputFilter';
+import { CButton } from '../../components/Button';
 
 export default class Login extends Component {
 
@@ -57,7 +57,7 @@ export default class Login extends Component {
                         mobxUser.saveUser(user.email);
                         UUser.email = user.email;
                         UUser.userId = user.uid;
-
+                        
                     })
                 Login.emailLastTime = email;
                 toast('Login success.');
