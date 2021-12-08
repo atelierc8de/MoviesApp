@@ -43,7 +43,7 @@ export const Navigation = observer(() => {
 
     async function registerBackgroundFetchAsync() {
         return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-            minimumInterval: 60 * 1, // 8 hours
+            minimumInterval: 60 * 480, // 8 hours
             stopOnTerminate: false, // android only,
             startOnBoot: true, // android only
         });
