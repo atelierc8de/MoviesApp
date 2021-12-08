@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,6 +18,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import UUser from '../system/UUser';
+import UServiceBase from '../system/api';
+const _ = require("lodash");
+import moment from "moment";
+
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+
+const BACKGROUND_FETCH_TASK = 'background-fetch';
+
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -32,7 +41,71 @@ export const Navigation = observer(() => {
     const notificationListener = useRef();
     const responseListener = useRef();
 
+    async function registerBackgroundFetchAsync() {
+        return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+            minimumInterval: 60 * 1, // 8 hours
+            stopOnTerminate: false, // android only,
+            startOnBoot: true, // android only
+        });
+    };
+
+
+
+    sendPushNotification = async (title, releaseDate) => {
+        const message = {
+            to: UUser.tokenPushNotification,
+            sound: 'default',
+            title: 'New Film',
+            body: `Upcoming movies: ${title} will release in ${releaseDate}. Watch trailer! `,
+            data: { someData: 'goes here' },
+        };
+
+        await fetch('https://exp.host/--/api/v2/push/send', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Accept-encoding': 'gzip, deflate',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message),
+        });
+    }
+
+    TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+        UUser._movieIDNotification = await UUser.getUser('movieIDNotification', null);
+        const now = Date.now();
+        const hours = new Date(now).getHours();
+        if (hours > 7 && hours < 18) {
+            UServiceBase.getMovieList({
+                page: 1,
+                cb: (err, res) => {
+                    if (!err) {
+                        const result = res?.data?.results;
+                        const moviesList = _.sortBy(result, function (o) { return new moment(o.release_date); }).reverse();
+                        const title = moviesList[0]?.title;
+                        const release_date = moviesList[0]?.release_date;
+                        const dateCompare = moment().diff(release_date, 'days');
+
+                        if (dateCompare <= 0 && (UUser.movieIDNotification !== moviesList[0]?.id) && (moviesList[0]?.id !== UUser.firstMovieID)) {
+                            UUser.movieIDNotification = moviesList[0]?.id;
+                            sendPushNotification(title, release_date)
+                        }
+
+                    } else {
+                        toast('error push notification!');
+                    }
+                }
+            });
+        }
+
+    });
+
+
+
     useEffect(() => {
+
+        checkStatusAsync();
+
         registerForPushNotificationsAsync().then(token => {
             UUser.tokenPushNotification = token;
         });
@@ -46,12 +119,19 @@ export const Navigation = observer(() => {
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
             console.log(response);
         });
-
         return () => {
             Notifications.removeNotificationSubscription(notificationListener.current);
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, []);
+
+
+
+
+    const checkStatusAsync = async () => {
+        await registerBackgroundFetchAsync();
+    };
+
 
 
     return (
@@ -76,7 +156,6 @@ function MoviesNavigator() {
             <Stack.Group>
                 <Stack.Screen name={'Teaser'} component={Teaser} options={{ headerShown: false, presentation: 'transparentModal' }} />
             </Stack.Group>
-
             <Stack.Screen name={'Login'} component={Login} options={{ headerShown: false }} />
             <Stack.Screen name={'Register'} component={Register} options={{ headerShown: false }} />
             <Stack.Screen name={'Logout'} component={Logout} options={{ headerShown: false }} />
@@ -155,6 +234,7 @@ const TabBarIcon = ({ name = '', color }) => {
 
 
 const registerForPushNotificationsAsync = async () => {
+
     let token;
     if (Constants.isDevice) {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();

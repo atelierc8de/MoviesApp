@@ -83,9 +83,6 @@ export default class MoviesDetail extends ListViewLogicExt {
                     toast('Error add Film Favorite!');
                 });
 
-                this.sendPushNotification(data.title)
-
-
         } else {
             firestore.favorites()
                 .collection(UUser.userId)
@@ -99,27 +96,6 @@ export default class MoviesDetail extends ListViewLogicExt {
                 });
         }
     };
-
-
-    sendPushNotification = async (title) => {
-        const message = {
-            to: UUser.tokenPushNotification,
-            sound: 'default',
-            title: 'Movies Favorite',
-            body: `You was add ${title} film to favorite list`,
-            data: { someData: 'goes here' },
-        };
-
-        await fetch('https://exp.host/--/api/v2/push/send', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Accept-encoding': 'gzip, deflate',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message),
-        });
-    }
 
 
     render() {

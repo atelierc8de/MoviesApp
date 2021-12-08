@@ -1,4 +1,4 @@
-import { runInAction, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 class MobxUser {
 
@@ -6,6 +6,7 @@ class MobxUser {
     listMore = [];
     disableAddMovie = false;
     user = null;
+    movieAlreadySendNotification = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -13,17 +14,10 @@ class MobxUser {
 
     saveUID(id) {
         this.uID = id;
-
-        runInAction(() => {
-            this.uID = id;
-        })
     }
 
     saveUser(user) {
         this.user = user;
-        runInAction(() => {
-            this.user = user;
-        })
     }
 
     logOut() {
@@ -32,9 +26,13 @@ class MobxUser {
     handleDisable() {
         this.disableAddMovie = true;
     }
-    
+
     handleEnable() {
         this.disableAddMovie = false;
+    }
+
+    saveMovieSendNotification(id) {
+        this.movieAlreadySendNotification = id;
     }
 }
 

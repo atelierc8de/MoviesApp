@@ -11,6 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "userInterfaceStyle": "automatic",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -18,9 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "light"
     },
     "android": {
+      "userInterfaceStyle": "dark",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon2.png",
         "backgroundColor": "#FFFFFF"

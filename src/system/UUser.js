@@ -8,10 +8,12 @@ export default class UUser {
     static initDataFromStorage = async (cb) => {
         UUser._userId = await UUser.getUser('user_ID', null);
         UUser._email = await UUser.getUser('email', null);
+        UUser._movieIDNotification = await UUser.getUser('movieIDNotification', null);
         cb();
     };
 
     static tokenPushNotification = '';
+    static firstMovieID = '';
 
     /**
      *
@@ -97,28 +99,53 @@ export default class UUser {
         return UUser._userId;
     };
 
-        /**
-     *
-     * @type {string}
-     * @private
-     */
-         static _email = '';
+    /**
+ *
+ * @type {string}
+ * @private
+ */
+    static _email = '';
 
-         /**
-          *
-          * @param value
-          */
-         static set email(value) {
-             UUser._email = value;
-             UUser.storeUser('email', value).then();
-         };
-     
-         /**
-          *
-          * @returns {null|string}
-          */
-         static get email() {
-             return UUser._email;
-         };
+    /**
+     *
+     * @param value
+     */
+    static set email(value) {
+        UUser._email = value;
+        UUser.storeUser('email', value).then();
+    };
+
+    /**
+     *
+     * @returns {null|string}
+     */
+    static get email() {
+        return UUser._email;
+    };
+
+
+    /**
+ *
+ * @type {string}
+ * @private
+ */
+     static _movieIDNotification = '';
+
+     /**
+      *
+      * @param value
+      */
+     static set movieIDNotification(value) {
+         UUser._movieIDNotification = value;
+         UUser.storeUser('movieIDNotification', value).then();
+     };
+ 
+     /**
+      *
+      * @returns {null|string}
+      */
+     static get movieIDNotification() {
+         return UUser._movieIDNotification;
+     };
 
 }

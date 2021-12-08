@@ -8,8 +8,10 @@ import { toast } from "../../components/Toast/Toast";
 import { auth } from '../../../firebaseConfig';
 import UUser from '../../system/UUser';
 import ListViewLogicExt from "../../components/common/ListViewLogicExt";
-import {TextTitle } from "../../components/Styled";
-import {MoviesItem} from '../../components/MoviesItem';
+import { TextTitle } from "../../components/Styled";
+import { MoviesItem } from '../../components/MoviesItem';
+const _ = require("lodash");
+import moment from "moment";
 
 export default class MoviesList extends ListViewLogicExt {
 
@@ -19,6 +21,7 @@ export default class MoviesList extends ListViewLogicExt {
     componentDidMount() {
         this.getDataMovie();
     }
+
 
     /**
      *
@@ -31,8 +34,10 @@ export default class MoviesList extends ListViewLogicExt {
                 cb: (err, res) => {
                     if (!err) {
                         const result = res?.data?.results;
+                        const movies = _.sortBy(result, function (o) { return new moment(o.release_date); }).reverse();
+                        UUser.firstMovieID = movies[0]?.id;
                         this.setState({
-                            data: this.state.data.concat(result),
+                            data: this.state.data.concat(movies),
                             isLoading: false
                         });
                     } else {
@@ -71,9 +76,9 @@ export default class MoviesList extends ListViewLogicExt {
         });
     };
 
-    onSearch = (textSearch) =>{
-        this.setState({textSearch});
-        if(textSearch.length > 0){
+    onSearch = (textSearch) => {
+        this.setState({ textSearch });
+        if (textSearch.length > 0) {
             UServiceBase.searchMovie({
                 key: textSearch,
                 cb: (err, res) => {
@@ -89,7 +94,7 @@ export default class MoviesList extends ListViewLogicExt {
                     }
                 }
             })
-        }else{
+        } else {
             UServiceBase.getMovieList({
                 page: this.state.page,
                 cb: (err, res) => {
@@ -108,6 +113,7 @@ export default class MoviesList extends ListViewLogicExt {
 
     }
 
+
     render() {
 
         const { data, textSearch, isLoading } = this.state;
@@ -115,7 +121,7 @@ export default class MoviesList extends ListViewLogicExt {
 
         return (
             <View style={{ flex: 1 }}>
-                <Header value={textSearch} onChangeText={(textSearch)=>this.onSearch(textSearch)} />
+                <Header value={textSearch} onChangeText={(textSearch) => this.onSearch(textSearch)} />
                 <TextTitle>Popular</TextTitle>
                 <FlatList
                     style={{ paddingHorizontal: 20 }}
@@ -123,7 +129,7 @@ export default class MoviesList extends ListViewLogicExt {
                     keyExtractor={(item, index) => item.id.toString()}
                     ListHeaderComponent={() => <View style={{ height: 30 }} />}
                     ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{paddingVertical:10}} /> : () => <View style={{ height: 30 }} />}
+                    ListFooterComponent={isLoading ? () => <ActivityIndicator size="large" animating={true} color={'red'} style={{ paddingVertical: 10 }} /> : () => <View style={{ height: 30 }} />}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={1}
                     extraData={data}

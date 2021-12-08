@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import { Component } from 'react';
 import UData from "../../system/UData";
 const _ = require("lodash");
 
@@ -24,18 +24,18 @@ export default class ListViewLogicExt extends Component {
         this.state = {
             refreshing: false, // for RefreshControl only, used in flat list
             data: [], // list data
-            isWaiting:false, // for show loading indication, normal in show in tab bar
+            isWaiting: false, // for show loading indication, normal in show in tab bar
 
             istFavorite: [],
             isAddFavorite: false,
 
-            textSearch:'', // for display in text input only
-            searchCount:0,  // for display in result description
-            showResultDescription:false,  // show/hide the result description
+            textSearch: '', // for display in text input only
+            searchCount: 0,  // for display in result description
+            showResultDescription: false,  // show/hide the result description
             page: 1,
-            isLoading:false,
+            isLoading: false,
             isAddToast: false,
-            docID:'',
+            docID: '',
             disable: false,
         };
 
@@ -49,9 +49,9 @@ export default class ListViewLogicExt extends Component {
 
         this.pageMin = this.PAGE_MIN;
 
-        this.getDataFunc = ()=>{}; // service get data function, to get data from api
+        this.getDataFunc = () => { }; // service get data function, to get data from api
 
-        this.customizeDataFunc = ()=>{}; // function to adjust data before displaying
+        this.customizeDataFunc = () => { }; // function to adjust data before displaying
 
         this.alias = 'NA'; // for store data
 
@@ -99,12 +99,12 @@ export default class ListViewLogicExt extends Component {
      * @param isSuccess
      * @param res
      */
-    afterLoadData=(isSuccess, res)=>{
+    afterLoadData = (isSuccess, res) => {
 
         if (isSuccess) {
 
             // get totalCount for search
-            if (this.isSearch && (this.pageCurrent === 0) && res.headers['x-total-count']){
+            if (this.isSearch && (this.pageCurrent === 0) && res.headers['x-total-count']) {
 
                 this.setState(
                     {
@@ -116,7 +116,7 @@ export default class ListViewLogicExt extends Component {
 
             }
 
-            if (res.data.length === 0){
+            if (res.data.length === 0) {
 
                 this.pageMax = this.pageCurrent;
 
@@ -126,10 +126,10 @@ export default class ListViewLogicExt extends Component {
                 if (this.pageCurrent === 0) { // only update project in favourite when
 
                     if (this.allowCacheData && UData.cache[this.alias])
-                        UData.cache[this.alias] = {data:[], pageCurrent: this.pageCurrent, pageMax: this.pageMax};
+                        UData.cache[this.alias] = { data: [], pageCurrent: this.pageCurrent, pageMax: this.pageMax };
 
                     if (this.isCMounted)
-                        this.setState({data: []});
+                        this.setState({ data: [] });
                 }
 
             }
@@ -145,10 +145,10 @@ export default class ListViewLogicExt extends Component {
 
 
                 if (this.allowCacheData && UData.cache[this.alias])
-                    UData.cache[this.alias] = {data, pageCurrent: this.pageCurrent, pageMax: this.pageMax};
+                    UData.cache[this.alias] = { data, pageCurrent: this.pageCurrent, pageMax: this.pageMax };
 
                 if (this.isCMounted)
-                    this.setState({data});
+                    this.setState({ data });
 
                 this.pageCurrent++;
             }
